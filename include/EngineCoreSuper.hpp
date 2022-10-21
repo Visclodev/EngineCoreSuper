@@ -13,5 +13,7 @@
 #include "../src/Registry.hpp"
 #include "../src/RegistryManager.hpp"
 #include "../src/PlayerPrefs.hpp"
+#include "../src/Components/Components.hpp"
+#include "../src/Systems/Systems.hpp"
 
 #endif /* !ENGINE_HPP_ */
