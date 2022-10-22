@@ -4,33 +4,15 @@ An Entity Component System paradygm game engine
 
 ## How to install
 
-make a build directory
-
-``` bash
-mkdir build
-```
-
-execute the cmake
-
-``` bash
-cmake ..
-```
-
 Follow thoses step according to your Operating System:
 
 1. Linux
 
-    execute the generated makefile (still in the build directory)
+    execute the `install.sh` script
 
-    ``` bash
-    make
-    ```
+    it will ask for your password to copy the generated lib in /lib and include in /usr/include
 
-    then copy `libEngineCoreSuper.so` in your dynamic library folder or export its library path
-
-    ``` bash
-    export LD_LIBRARY_PATH=/path/to/libEngineCoreSuper.so
-    ```
+    if you don't type in your password, you will have to locate the lib yourself and include it yourself too
 
 2. Windows
 
@@ -45,7 +27,7 @@ Follow thoses step according to your Operating System:
     EngineCoreSuper works with c++ & sfml
 
     ``` bash
-    g++ main.cpp -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window -lEngineCoreSuper -Lpath/to/libEngineCoreSuper
+    g++ main.cpp -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window -lEngineCoreSuper
     ```
 
     (you can try it with the test/main.cpp file included in this repository)
