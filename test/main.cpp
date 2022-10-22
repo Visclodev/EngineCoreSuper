@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "../include/EngineCoreSuper.hpp"
+#include <EngineCoreSuper.hpp>
 
 class Player{
     public:
