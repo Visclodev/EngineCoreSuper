@@ -8,8 +8,8 @@
 #ifndef ENGINE_HPP_
 #define ENGINE_HPP_
 
-#include "Registry/Registry.hpp"
-#include "Components/Components.hpp"
-#include "Systems/Systems.hpp"
+#include "Registry/RegistryManager.hpp"
+#include "Components/SuperComponents.hpp"
+#include "Systems/SuperSystems.hpp"
 
 #endif /* !ENGINE_HPP_ */

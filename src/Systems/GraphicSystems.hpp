@@ -11,7 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "../Registry.hpp"
-#include "../Components/Components.hpp"
+#include "../Components/SuperComponents.hpp"
 
 namespace eng
 {

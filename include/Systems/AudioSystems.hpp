@@ -9,7 +9,7 @@
 #define AUDIOSYSTEMS_HPP_
 
 #include "../Registry/Registry.hpp"
-#include "../Components/Components.hpp"
+#include "../Components/SuperComponents.hpp"
 
 namespace eng
 {
