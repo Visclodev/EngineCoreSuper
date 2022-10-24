@@ -14,5 +14,6 @@
 #include "Writable.hpp"
 #include "Music.hpp"
 #include "Sound.hpp"
+#include "ParticleEmitter.hpp"
 
 #endif /* !SUPERCOMPONENTS_HPP_ */

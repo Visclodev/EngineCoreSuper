@@ -10,6 +10,7 @@
 
 #include <stack>
 #include "Registry.hpp"
+#include "Log.hpp"
 
 namespace eng
 {

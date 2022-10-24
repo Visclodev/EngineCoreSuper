@@ -9,7 +9,7 @@
 #define PHYSICSYSTEMS_HPP_
 
 #include <SFML/Config.hpp>
-#include "../Registry/Registry.hpp"
+#include "../Registry.hpp"
 #include "../Components/SuperComponents.hpp"
 
 namespace eng

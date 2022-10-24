@@ -8,7 +8,7 @@
 #ifndef AUDIOSYSTEMS_HPP_
 #define AUDIOSYSTEMS_HPP_
 
-#include "../Registry/Registry.hpp"
+#include "../Registry.hpp"
 #include "../Components/SuperComponents.hpp"
 
 namespace eng

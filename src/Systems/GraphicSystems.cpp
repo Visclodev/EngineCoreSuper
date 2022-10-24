@@ -50,6 +50,53 @@ void eng::GraphicSystems::drawSystem(Registry &r)
     }
 }
 
+
+void eng::GraphicSystems::particleSystem(eng::Registry &r)
+{
+    auto &poss = r.getComponents<Position>();
+    auto &partEmitters = r.getComponents<ParticleEmitter>();
+
+    for (int i = 0; i < poss.size() && i < partEmitters.size(); i++) {
+        if (poss[i].has_value() && partEmitters[i].has_value()) {
+            auto &pos = poss[i].value();
+            auto &prt = partEmitters[i].value();
+            auto delta = _delta.asSeconds();
+
+            prt.emitParticle(delta, pos.x, pos.y);
+            prt.killOldparticles(delta);
+            prt.limitNumber();
+            prt.applyTorque(delta);
+            prt.applyAcceleration(delta);
+            if (prt.isLocal)
+                _displayParticleVector(prt.getParticles(), pos.x, pos.y);
+            else
+                _displayParticleVector(prt.getParticles());
+        }
+    }
+}
+
+// global (position of each particle is independant)
+void eng::GraphicSystems::_displayParticleVector(
+std::vector<eng::SuperParticle> particles)
+{
+    auto it = particles.begin();
+
+    for (; it != particles.end(); it++)
+        _window.draw(it->sprite);
+}
+
+// local (position of each particle is dependant of the emitters point)
+void eng::GraphicSystems::_displayParticleVector(
+std::vector<eng::SuperParticle> particles, float x, float y)
+{
+    auto it = particles.begin();
+
+    for (; it != particles.end(); it++) {
+        it->sprite.setPosition(x, y);
+        _window.draw(it->sprite);
+    }
+}
+
 void eng::GraphicSystems::writeSystem(Registry &r)
 {
     auto &positions = r.getComponents<Position>();

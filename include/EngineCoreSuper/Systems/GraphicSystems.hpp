@@ -10,7 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "../Registry/Registry.hpp"
+#include "../Registry.hpp"
 #include "../Components/SuperComponents.hpp"
 
 namespace eng
@@ -27,6 +27,10 @@ namespace eng
             /// @brief Draw every writable on the framebuffer
             /// @param r The registry to draw on the framebuffer
             void writeSystem(Registry &r);
+
+            /// @brief update and draw particles on the framebuffer
+            /// @param r The registry on which to apply this system
+            void particleSystem(Registry &r);
 
             /// @brief check if the window should close
             /// @return true if it should close, false if not
@@ -56,6 +60,9 @@ namespace eng
             void setFrameRateLimit(unsigned int limit);
         protected:
         private:
+            void _displayParticleVector(std::vector<eng::SuperParticle> vector);
+            void _displayParticleVector(std::vector<eng::SuperParticle> vector,
+                float x, float y);
             sf::Time _delta;
             sf::Clock _clock;
             sf::RenderWindow _window;

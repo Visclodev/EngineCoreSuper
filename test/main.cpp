@@ -5,7 +5,7 @@
 ** main
 */
 
-#include <EngineCoreSuper.hpp>
+#include <EngineCoreSuper/EngineCoreSuper.hpp>
 
 class Player{
     public:
@@ -40,8 +40,9 @@ void addText(eng::Registry &r)
 
 int main(void)
 {
-    eng::Registry reg;
-    reg.setName("Registry one");
+    eng::RegistryManager r;
+    r.addRegistry("Registry one");
+    auto reg = r.getTop();
     eng::Entity baba = reg.spawnEntity();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
 
