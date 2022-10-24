@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <array>
 
 namespace eng
 {
