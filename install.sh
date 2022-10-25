@@ -1,15 +1,15 @@
 #!/bin/bash
 
-mkdir build
+mkdir -p build
 cd build
 cmake ..
 make
 cd ..
 
 cp src/*.hpp include/EngineCoreSuper/.
-mkdir include/EngineCoreSuper/Components
+mkdir -p include/EngineCoreSuper/Components
 cp src/Components/*.hpp include/EngineCoreSuper/Components/.
-mkdir include/EngineCoreSuper/Systems
+mkdir -p include/EngineCoreSuper/Systems
 cp src/Systems/*.hpp include/EngineCoreSuper/Systems/.
 
 echo "Copying shared library in /lib/"
