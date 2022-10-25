@@ -40,7 +40,7 @@ void eng::ParticleEmitter::applyAcceleration(float delta)
 void eng::ParticleEmitter::applyTorque(float delta)
 {
     for (auto it = _particles.begin(); it != _particles.end(); it++)
-        it->sprite.setRotation(delta * _torque);
+        it->currentRotation = (delta * _torque);
 }
 
 void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
