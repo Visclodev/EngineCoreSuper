@@ -65,6 +65,7 @@ void eng::GraphicSystems::particleSystem(eng::Registry &r)
             prt.emitParticle(delta, pos.x, pos.y);
             prt.killOldparticles(delta);
             prt.limitNumber();
+            prt.updateParticles(delta);
             prt.applyTorque(delta);
             prt.applyAcceleration(delta);
             if (prt.isLocal)

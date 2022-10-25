@@ -38,6 +38,27 @@ void addText(eng::Registry &r)
     r.emplaceComponent(text, eng::Writable("escape_text", "Press esc. key to exit"));
 }
 
+void addParticleEmmiter(eng::Registry &r, int screenWidth, int screenHeight)
+{
+    eng::Entity particles = r.spawnEntity();
+    int x = screenWidth / 2;
+    int y = screenHeight / 2;
+
+    r.emplaceComponent(particles, eng::Position(x, y, 0));
+    std::cout << "emplaced position in registry" << std::endl;
+    r.emplaceComponent(particles, eng::ParticleEmitter());
+    std::cout << "emplaced particle emitter in registry" << std::endl;
+    auto &emitter = r.getComponents<eng::ParticleEmitter>()[particles.getId()].value();
+    
+    emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
+    emitter.setBaseSpeed(1);
+    emitter.setBaseRotation(180);
+    emitter.setEmittingRate(0.1);
+    emitter.setAcceleration(50);
+    emitter.setMaxNumber(100);
+    emitter.isLocal = false;
+}
+
 int main(void)
 {
     eng::RegistryManager r;
@@ -50,10 +71,12 @@ int main(void)
     reg.registerComponents(eng::SparseArray<eng::Position>());
     reg.registerComponents(eng::SparseArray<eng::Drawable>());
     reg.registerComponents(eng::SparseArray<eng::Writable>());
+    reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
     reg.emplaceComponent(baba, Player("baba", 56));
     reg.emplaceComponent(baba, eng::Position(13, 13, 0));
     reg.emplaceComponent(baba, eng::Drawable("../assets/logo.png"));
     addText(reg);
+    addParticleEmmiter(reg, 1920, 1080);
 
     print_infos(reg, baba);
 
@@ -63,6 +86,7 @@ int main(void)
         gfx.clear();
         gfx.drawSystem(reg);
         gfx.writeSystem(reg);
+        gfx.particleSystem(reg);
         gfx.display();
     }
     return (0);

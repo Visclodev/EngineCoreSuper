@@ -29,6 +29,7 @@ namespace eng
                 sprite.setTexture(t);
                 sprite.setColor(c);
                 sprite.setPosition(x, y);
+                sprite.setRotation(rotation);
             }
             ~SuperParticle() {}
             float lifeTime = 0;
@@ -55,6 +56,12 @@ namespace eng
             void setParticleColor(sf::Color color);
             void setParticleColor(int r, int g, int b, int a);
             bool isLocal = true;
+            void setBaseSpeed(float speed);
+            void setAcceleration(float acceleration);
+            void setBaseRotation(float rotation);
+            void setTorque(float torque);
+            void setEmittingRate(float rate);
+            void setMaxNumber(float maxNumber);
             std::vector<eng::SuperParticle> &getParticles();
         private:
             std::vector<eng::SuperParticle> _particles;

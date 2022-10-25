@@ -56,6 +56,38 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
     }
 }
 
+static float basic_lerp(float a, float b, float t)
+{
+    return a + t * (b - a);
+}
+
+static std::array<float, 2> getVectorAngle(float angle)
+{
+    std::array<float, 2> res;
+    float x = 1;
+    float y = 0;
+    int circlePlace = 0;
+
+    while (angle > 90) {
+        angle -= 90;
+        circlePlace += 1;
+    }
+    x = basic_lerp(0, 1, angle / 90.0f);
+    y = basic_lerp(1, 0, angle / 90.0f);
+    if (circlePlace % 2 != 0)
+        std::swap(x, y);
+    if (circlePlace == 1)
+        y = -y;
+    else if (circlePlace == 2) {
+        x = -x;
+        y = -y;
+    } else if (circlePlace == 3)
+        x = -x;
+    res[0] = x;
+    res[1] = y;
+    return res;
+}
+
 void eng::ParticleEmitter::updateParticles(float delta)
 {
     applyAcceleration(delta);
@@ -63,15 +95,18 @@ void eng::ParticleEmitter::updateParticles(float delta)
     auto it = _particles.begin();
 
     for (; it != _particles.end(); it++) {
+        auto vectorAngle = getVectorAngle(it->currentRotation);
+        float x = (delta * it->currentSpeed) * vectorAngle[0];
+        float y = (delta * it->currentSpeed) * vectorAngle[1];
         it->sprite.setRotation(it->currentRotation);
-        it->sprite.setPosition(it->sprite.getPosition().x + it->currentSpeed, it->sprite.getPosition().y);
+        it->sprite.move(x, y);
     }
 }
 
 void eng::ParticleEmitter::setParticleTexture(int type)
 {
-    if (eng::PARTICLE_TYPE::Pixel)
-        _texture->create(0, 0);
+    if (eng::PARTICLE_TYPE::Pixel == type)
+        _texture->create(1, 1);
 }
 
 void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
@@ -88,6 +123,36 @@ void eng::ParticleEmitter::setParticleColor(sf::Color color)
 void eng::ParticleEmitter::setParticleColor(int r, int g, int b, int a)
 {
     this->_color = sf::Color(r, g, b, a);
+}
+
+void eng::ParticleEmitter::setBaseSpeed(float speed)
+{
+    _baseSpeed = speed;
+}
+
+void eng::ParticleEmitter::setAcceleration(float acceleration)
+{
+    _acceleration = acceleration;
+}
+
+void eng::ParticleEmitter::setBaseRotation(float rotation)
+{
+    _baseRotation = rotation;
+}
+
+void eng::ParticleEmitter::setTorque(float torque)
+{
+    _torque = torque;
+}
+
+void eng::ParticleEmitter::setEmittingRate(float rate)
+{
+    _emissionRate = rate;
+}
+
+void eng::ParticleEmitter::setMaxNumber(float max)
+{
+    _maxNumber = max;
 }
 
 std::vector<eng::SuperParticle> &eng::ParticleEmitter::getParticles()
