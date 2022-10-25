@@ -56,12 +56,12 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
     }
 }
 
-static float basic_lerp(float a, float b, float t)
+float eng::ParticleEmitter::_basicLerp(float a, float b, float t)
 {
     return a + t * (b - a);
 }
 
-static std::array<float, 2> getVectorAngle(float angle)
+std::array<float, 2> eng::ParticleEmitter::_getVectorAngle(float angle)
 {
     std::array<float, 2> res;
     float x = 1;
@@ -72,8 +72,8 @@ static std::array<float, 2> getVectorAngle(float angle)
         angle -= 90;
         circlePlace += 1;
     }
-    x = basic_lerp(0, 1, angle / 90.0f);
-    y = basic_lerp(1, 0, angle / 90.0f);
+    x = _basicLerp(0, 1, angle / 90.0f);
+    y = _basicLerp(1, 0, angle / 90.0f);
     if (circlePlace % 2 != 0)
         std::swap(x, y);
     if (circlePlace == 1)
@@ -95,7 +95,7 @@ void eng::ParticleEmitter::updateParticles(float delta)
     auto it = _particles.begin();
 
     for (; it != _particles.end(); it++) {
-        auto vectorAngle = getVectorAngle(it->currentRotation);
+        auto vectorAngle = _getVectorAngle(it->currentRotation);
         float x = (delta * it->currentSpeed) * vectorAngle[0];
         float y = (delta * it->currentSpeed) * vectorAngle[1];
         it->sprite.setRotation(it->currentRotation);
