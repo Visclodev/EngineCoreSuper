@@ -80,6 +80,10 @@ namespace eng
             float _lifeTime = 5;
             float _nextEmission = 0;
             float _emissionRate = 1;
+
+            // Usefull methods
+            float _basicLerp(float a, float b, float t);
+            std::array<float, 2> _getVectorAngle(float angle);
     };
 } // namespace eng
 
