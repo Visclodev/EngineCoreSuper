@@ -11,5 +11,6 @@ jobs:
   marge_master:
     needs: [build_linux]
     runs-on: ubuntu-latest
-    name: dev -> master
-    run : git pull origin dev 
+    steps:
+      name: dev -> master
+      run : git pull origin dev 
