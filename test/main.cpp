@@ -52,10 +52,11 @@ void addParticleEmmiter(eng::Registry &r, int screenWidth, int screenHeight)
     
     emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
     emitter.setBaseSpeed(1);
-    emitter.setBaseRotation(180);
-    emitter.setEmittingRate(0.1);
-    emitter.setAcceleration(50);
+    emitter.setBaseRotation(160, 200);
+    emitter.setEmittingRate(0.01);
+    emitter.setAcceleration(150);
     emitter.setMaxNumber(100);
+    emitter.setParticleColor(sf::Color::Yellow);
     emitter.isLocal = false;
 }
 
@@ -66,6 +67,7 @@ int main(void)
     auto reg = r.getTop();
     eng::Entity baba = reg.spawnEntity();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
+    gfx.setFrameRateLimit(60);
 
     reg.registerComponents(eng::SparseArray<Player>());
     reg.registerComponents(eng::SparseArray<eng::Position>());

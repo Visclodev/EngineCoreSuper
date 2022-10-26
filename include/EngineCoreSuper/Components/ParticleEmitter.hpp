@@ -53,33 +53,63 @@ namespace eng
             void emitParticle(float delta, float x, float y);
             void setParticleTexture(int type);
             void setParticleTexture(int type, std::string filepath);
-            void setParticleColor(sf::Color color);
-            void setParticleColor(int r, int g, int b, int a);
             bool isLocal = true;
+            void setEmittingRate(float rate);
+            void setMaxNumber(float maxNumber);
+            std::vector<eng::SuperParticle> &getParticles();
+
+            // Fixeds
+
             void setBaseSpeed(float speed);
             void setAcceleration(float acceleration);
             void setBaseRotation(float rotation);
             void setTorque(float torque);
-            void setEmittingRate(float rate);
-            void setMaxNumber(float maxNumber);
-            std::vector<eng::SuperParticle> &getParticles();
+            void setParticleColor(sf::Color color);
+            void setParticleColor(int r, int g, int b, int a);
+
+            // Randoms
+
+            void setBaseSpeed(float speed, float maxSpeed);
+            void setAcceleration(float acceleration, float maxAcceleration);
+            void setBaseRotation(float rotation, float maxRotation);
+            void setTorque(float torque, float maxTorque);
+            void setParticleColor(sf::Color color, sf::Color maxColor);
         private:
             std::vector<eng::SuperParticle> _particles;
             sf::Texture *_texture = new sf::Texture();
-            sf::Color _color = sf::Color::White;
             int _particleType;
             float _maxNumber = 20;
 
-            // Position & Rotation
+            // Position & Rotation & Color
+            // -Speed
+            bool _fixedSpeed = true;
             float _baseSpeed = 5;
+            float _baseSpeedMax = 0;
+            // -Acceleration
+            bool _fixedAcceleration = true;
             float _acceleration = 0;
+            float _accelerationMax = 0;
+            // -Rotation
+            bool _fixedRotation = true;
             float _baseRotation = 0;
+            float _baseRotationMax = 0;
+            // -Torque
+            bool _fixedTorque = true;
             float _torque = 0;
+            float _torqueMax = 0;
+            // -Color
+            bool _fixedColor = true;
+            sf::Color _color = sf::Color::White;
+            sf::Color _colorMax = sf::Color::White;
 
             // Timers
             float _lifeTime = 5;
             float _nextEmission = 0;
             float _emissionRate = 1;
+
+            // Usefull methods
+            float _basicLerp(float a, float b, float t);
+            std::array<float, 2> _getVectorAngle(float angle);
     };
 } // namespace eng
 

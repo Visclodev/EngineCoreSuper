@@ -6,6 +6,7 @@
 */
 
 #include "ParticleEmitter.hpp"
+#include <iostream>
 
 eng::ParticleEmitter::ParticleEmitter()
 {
@@ -40,7 +41,7 @@ void eng::ParticleEmitter::applyAcceleration(float delta)
 void eng::ParticleEmitter::applyTorque(float delta)
 {
     for (auto it = _particles.begin(); it != _particles.end(); it++)
-        it->currentRotation = (delta * _torque);
+        it->currentRotation += (delta * _torque);
 }
 
 void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
@@ -48,8 +49,11 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
     _nextEmission -= delta;
 
     if (_nextEmission <= 0) {
+        float baseRotation = _baseRotation;
+        if (_fixedRotation == false)
+            baseRotation += rand() % int(_baseRotationMax - _baseRotation);
         _particles.push_back(
-            eng::SuperParticle(*_texture, _color, _baseSpeed, _baseRotation,
+            eng::SuperParticle(*_texture, _color, _baseSpeed, baseRotation,
             x, y)
         );
         _nextEmission = _emissionRate;
@@ -105,8 +109,14 @@ void eng::ParticleEmitter::updateParticles(float delta)
 
 void eng::ParticleEmitter::setParticleTexture(int type)
 {
-    if (eng::PARTICLE_TYPE::Pixel == type)
+    if (eng::PARTICLE_TYPE::Pixel == type) {
+        sf::Uint8 *pixelArray = new sf::Uint8(1 * 1 * 4);
+        for (int i = 0; i < 4; i++)
+            pixelArray[i] = 255;
         _texture->create(1, 1);
+        _texture->update(pixelArray);
+        delete pixelArray;
+    }
 }
 
 void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
@@ -117,33 +127,75 @@ void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
 
 void eng::ParticleEmitter::setParticleColor(sf::Color color)
 {
+    _fixedColor = true;
     this->_color = color;
 }
 
 void eng::ParticleEmitter::setParticleColor(int r, int g, int b, int a)
 {
+    _fixedColor = true;
     this->_color = sf::Color(r, g, b, a);
+}
+
+void eng::ParticleEmitter::setParticleColor(sf::Color color, sf::Color maxColor)
+{
+    _fixedColor = false;
+    _color = color;
+    _colorMax = maxColor;
 }
 
 void eng::ParticleEmitter::setBaseSpeed(float speed)
 {
+    _fixedSpeed = true;
     _baseSpeed = speed;
 }
 
 void eng::ParticleEmitter::setAcceleration(float acceleration)
 {
+    _fixedAcceleration = true;
     _acceleration = acceleration;
 }
 
 void eng::ParticleEmitter::setBaseRotation(float rotation)
 {
+    _fixedRotation = true;
     _baseRotation = rotation;
 }
 
 void eng::ParticleEmitter::setTorque(float torque)
 {
+    _fixedTorque = true;
     _torque = torque;
 }
+
+void eng::ParticleEmitter::setBaseSpeed(float speed, float maxSpeed)
+{
+    _fixedSpeed = false;
+    _baseSpeed = speed;
+    _baseSpeedMax = maxSpeed;
+}
+
+void eng::ParticleEmitter::setAcceleration(float acceleration, float maxAcceleration)
+{
+    _fixedAcceleration = false;
+    _acceleration = acceleration;
+    _accelerationMax = maxAcceleration;
+}
+
+void eng::ParticleEmitter::setBaseRotation(float rotation, float maxRotation)
+{
+    _fixedRotation = false;
+    _baseRotation = rotation;
+    _baseRotationMax = maxRotation;
+}
+
+void eng::ParticleEmitter::setTorque(float torque, float maxTorque)
+{
+    _fixedTorque = false;
+    _torque = torque;
+    _torqueMax = maxTorque;
+}
+
 
 void eng::ParticleEmitter::setEmittingRate(float rate)
 {
