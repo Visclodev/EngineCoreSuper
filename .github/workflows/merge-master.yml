@@ -9,8 +9,9 @@ jobs:
   build_linux:
     uses: ./.github/workflows/test-linux.yml
   marge_master:
-    needs: [build_linux]
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
+      needs: [build_linux]
     steps:
       name: dev -> master
-      run : git pull origin dev 
+      run : |
+        git pull origin dev
