@@ -7,12 +7,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: install dependences
-        run:
+        run: |
           sudo apt update 
           sudo apt install -y cmake
           sudo apt-get install sfml-dev
       - name: build
-        run:
+        run: |
           mkdir -p build
           cd build
           cmake ..
