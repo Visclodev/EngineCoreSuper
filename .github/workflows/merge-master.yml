@@ -8,15 +8,8 @@ on:
 jobs:
   build_linux:
     uses: ./.github/workflows/test-linux.yml
-  to_Epitech:
+  marge_master:
     needs: [build_linux]
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Merge dev -> master
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          target_branch: master
-          github_token: ${{ github.token }}
+    name: dev -> master
+    run : git pull origin dev 
