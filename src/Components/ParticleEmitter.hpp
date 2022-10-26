@@ -30,6 +30,7 @@ namespace eng
                 sprite.setColor(c);
                 sprite.setPosition(x, y);
                 sprite.setRotation(rotation);
+                sprite.setOrigin(t.getSize().x / 2, t.getSize().y / 2);
             }
             ~SuperParticle() {}
             float lifeTime = 0;
