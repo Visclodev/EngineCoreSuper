@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - dev
-
 jobs:
   build_linux:
     uses: ./.github/workflows/test-linux.yml
-  marge_master:
+  merge_master:
       runs-on: ubuntu-latest
       needs: [build_linux]
     steps:
