@@ -19,6 +19,14 @@ class Player{
     private:
 };
 
+void followMouse(eng::Entity entity, eng::Registry &r, eng::GraphicSystems &g)
+{
+    auto &pos = r.getComponents<eng::Position>()[entity.getId()].value();
+
+    pos.x = sf::Mouse::getPosition(g.getRenderWindow()).x;
+    pos.y = sf::Mouse::getPosition(g.getRenderWindow()).y;
+}
+
 void print_infos(eng::Registry &reg, eng::Entity &baba)
 {
     std::cout << reg.getComponents<Player>()[baba.getId()].value().name << " has ";
@@ -38,26 +46,24 @@ void addText(eng::Registry &r)
     r.emplaceComponent(text, eng::Writable("escape_text", "Press esc. key to exit"));
 }
 
-void addParticleEmmiter(eng::Registry &r, int screenWidth, int screenHeight)
+eng::Entity addParticleEmmiter(eng::Registry &r)
 {
     eng::Entity particles = r.spawnEntity();
-    int x = screenWidth / 2;
-    int y = screenHeight / 2;
 
-    r.emplaceComponent(particles, eng::Position(x, y, 0));
-    std::cout << "emplaced position in registry" << std::endl;
+    r.emplaceComponent(particles, eng::Position(0, 0, 0));
     r.emplaceComponent(particles, eng::ParticleEmitter());
-    std::cout << "emplaced particle emitter in registry" << std::endl;
     auto &emitter = r.getComponents<eng::ParticleEmitter>()[particles.getId()].value();
     
     emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
-    emitter.setBaseSpeed(1);
-    emitter.setBaseRotation(160, 200);
+    emitter.setBaseSpeed(0, 10);
+    emitter.setBaseRotation(0, 360);
     emitter.setEmittingRate(0.01);
-    emitter.setAcceleration(150);
-    emitter.setMaxNumber(100);
+    emitter.setAcceleration(50);
+    emitter.setMaxNumber(100000);
     emitter.setParticleColor(sf::Color::Yellow);
+    emitter.setLifetime(20);
     emitter.isLocal = false;
+    return particles;
 }
 
 int main(void)
@@ -78,13 +84,14 @@ int main(void)
     reg.emplaceComponent(baba, eng::Position(13, 13, 0));
     reg.emplaceComponent(baba, eng::Drawable("../assets/logo.png"));
     addText(reg);
-    addParticleEmmiter(reg, 1920, 1080);
+    eng::Entity particle =  addParticleEmmiter(reg);
 
     print_infos(reg, baba);
 
     while (gfx.isWindowOpen()) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
+        followMouse(particle, reg, gfx);
         gfx.clear();
         gfx.drawSystem(reg);
         gfx.writeSystem(reg);

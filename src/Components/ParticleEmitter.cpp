@@ -50,10 +50,13 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
 
     if (_nextEmission <= 0) {
         float baseRotation = _baseRotation;
-        if (_fixedRotation == false)
+        if (_randomRotation)
             baseRotation += rand() % int(_baseRotationMax - _baseRotation);
+        float baseSpeed = _baseSpeed;
+        if (_randomSpeed)
+            baseSpeed += rand() % int(_baseSpeedMax - _baseSpeed);
         _particles.push_back(
-            eng::SuperParticle(*_texture, _color, _baseSpeed, baseRotation,
+            eng::SuperParticle(*_texture, _color, baseSpeed, baseRotation,
             x, y)
         );
         _nextEmission = _emissionRate;
@@ -127,71 +130,71 @@ void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
 
 void eng::ParticleEmitter::setParticleColor(sf::Color color)
 {
-    _fixedColor = true;
+    _randomColor = false;
     this->_color = color;
 }
 
 void eng::ParticleEmitter::setParticleColor(int r, int g, int b, int a)
 {
-    _fixedColor = true;
+    _randomColor = false;
     this->_color = sf::Color(r, g, b, a);
 }
 
 void eng::ParticleEmitter::setParticleColor(sf::Color color, sf::Color maxColor)
 {
-    _fixedColor = false;
+    _randomColor = true;
     _color = color;
     _colorMax = maxColor;
 }
 
 void eng::ParticleEmitter::setBaseSpeed(float speed)
 {
-    _fixedSpeed = true;
+    _randomSpeed = false;
     _baseSpeed = speed;
 }
 
 void eng::ParticleEmitter::setAcceleration(float acceleration)
 {
-    _fixedAcceleration = true;
+    _randomAcceleration = false;
     _acceleration = acceleration;
 }
 
 void eng::ParticleEmitter::setBaseRotation(float rotation)
 {
-    _fixedRotation = true;
+    _randomRotation = false;
     _baseRotation = rotation;
 }
 
 void eng::ParticleEmitter::setTorque(float torque)
 {
-    _fixedTorque = true;
+    _randomTorque = false;
     _torque = torque;
 }
 
 void eng::ParticleEmitter::setBaseSpeed(float speed, float maxSpeed)
 {
-    _fixedSpeed = false;
+    _randomSpeed = true;
     _baseSpeed = speed;
     _baseSpeedMax = maxSpeed;
 }
 
 void eng::ParticleEmitter::setAcceleration(float acceleration, float maxAcceleration)
 {
-    _fixedAcceleration = false;
+    _randomAcceleration = true;
     _acceleration = acceleration;
     _accelerationMax = maxAcceleration;
 }
 
 void eng::ParticleEmitter::setBaseRotation(float rotation, float maxRotation)
 {
-    _fixedRotation = false;
+    _randomRotation = true;
     _baseRotation = rotation;
     _baseRotationMax = maxRotation;
 }
 
 void eng::ParticleEmitter::setTorque(float torque, float maxTorque)
 {
-    _fixedTorque = false;
+    _randomTorque = true;
     _torque = torque;
     _torqueMax = maxTorque;
 }
@@ -205,6 +208,11 @@ void eng::ParticleEmitter::setEmittingRate(float rate)
 void eng::ParticleEmitter::setMaxNumber(float max)
 {
     _maxNumber = max;
+}
+
+void eng::ParticleEmitter::setLifetime(float lifetime)
+{
+    _lifeTime = lifetime;
 }
 
 std::vector<eng::SuperParticle> &eng::ParticleEmitter::getParticles()

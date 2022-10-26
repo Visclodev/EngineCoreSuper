@@ -53,6 +53,7 @@ namespace eng
             void emitParticle(float delta, float x, float y);
             void setParticleTexture(int type);
             void setParticleTexture(int type, std::string filepath);
+            void setLifetime(float lifetime);
             bool isLocal = true;
             void setEmittingRate(float rate);
             void setMaxNumber(float maxNumber);
@@ -82,23 +83,23 @@ namespace eng
 
             // Position & Rotation & Color
             // -Speed
-            bool _fixedSpeed = true;
+            bool _randomSpeed = false;
             float _baseSpeed = 5;
             float _baseSpeedMax = 0;
             // -Acceleration
-            bool _fixedAcceleration = true;
+            bool _randomAcceleration = false;
             float _acceleration = 0;
             float _accelerationMax = 0;
             // -Rotation
-            bool _fixedRotation = true;
+            bool _randomRotation = false;
             float _baseRotation = 0;
             float _baseRotationMax = 0;
             // -Torque
-            bool _fixedTorque = true;
+            bool _randomTorque = false;
             float _torque = 0;
             float _torqueMax = 0;
             // -Color
-            bool _fixedColor = true;
+            bool _randomColor = false;
             sf::Color _color = sf::Color::White;
             sf::Color _colorMax = sf::Color::White;
 
