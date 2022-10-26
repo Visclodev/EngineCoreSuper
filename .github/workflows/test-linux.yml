@@ -10,7 +10,7 @@ jobs:
         run: |
           sudo apt-get update 
           sudo apt-get install -y cmake
-          sudo apt-get install -y sfml
+          sudo apt-get install -y libsfml-dev
       - name: build
         run: |
           mkdir -p build
