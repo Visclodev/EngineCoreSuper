@@ -1,0 +1,23 @@
+name: Linux compile
+on: [workflow_call]
+jobs:
+  Linux-Compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: install dependences
+        run:
+          sudo apt update 
+          sudo apt install -y cmake
+          sudo apt-get install sfml-dev
+      - name: build
+        run:
+          mkdir -p build
+          cd build
+          cmake ..
+          make
+          cd ..
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}/build
