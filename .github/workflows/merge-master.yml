@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v3
       - name: dev -> master
         run : |
+          git config pull.rebase false
           git pull
           git checkout main
           git pull origin dev
