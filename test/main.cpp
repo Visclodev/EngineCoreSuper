@@ -54,7 +54,7 @@ eng::Entity addParticleEmmiter(eng::Registry &r)
     r.emplaceComponent(particles, eng::ParticleEmitter());
     auto &emitter = r.getComponents<eng::ParticleEmitter>()[particles.getId()].value();
     
-    emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel");
+    emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
     emitter.setBaseSpeed(100, 250);
     emitter.setBaseRotation(0, 360);
     emitter.setTorque(10);
