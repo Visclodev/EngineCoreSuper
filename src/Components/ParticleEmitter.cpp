@@ -124,7 +124,7 @@ void eng::ParticleEmitter::setParticleTexture(int type)
 
 void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
 {
-    if (eng::PARTICLE_TYPE::Sprite)
+    if (eng::PARTICLE_TYPE::Sprite == type)
         _texture->loadFromFile(filepath);
 }
 

@@ -21,6 +21,7 @@ namespace eng
 
             float x;
             float y;
+            float angular = 0;
         protected:
         private:
     };

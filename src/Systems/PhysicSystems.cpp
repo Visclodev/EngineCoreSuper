@@ -28,6 +28,7 @@ void eng::PhysicSystems::applyVelocities(Registry &r)
 
             position.x += velocity.x * _delta.asSeconds();
             position.y += velocity.y * _delta.asSeconds();
+            position.rotation += velocity.angular * _delta.asSeconds();
         }
     }
 }

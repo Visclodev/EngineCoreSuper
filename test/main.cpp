@@ -55,15 +55,39 @@ eng::Entity addParticleEmmiter(eng::Registry &r)
     auto &emitter = r.getComponents<eng::ParticleEmitter>()[particles.getId()].value();
     
     emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
-    emitter.setBaseSpeed(0, 10);
+    emitter.setBaseSpeed(100, 250);
     emitter.setBaseRotation(0, 360);
+    emitter.setTorque(10);
     emitter.setEmittingRate(0.01);
-    emitter.setAcceleration(50);
+    emitter.setAcceleration(-10);
     emitter.setMaxNumber(100000);
-    emitter.setParticleColor(sf::Color::Yellow);
-    emitter.setLifetime(20);
+    emitter.setParticleColor(sf::Color::Red);
+    emitter.setLifetime(5);
     emitter.isLocal = false;
     return particles;
+}
+
+void setupRegistry(eng::Registry &reg)
+{
+    reg.registerComponents(eng::SparseArray<Player>());
+    reg.registerComponents(eng::SparseArray<eng::Position>());
+    reg.registerComponents(eng::SparseArray<eng::Drawable>());
+    reg.registerComponents(eng::SparseArray<eng::Velocity>());
+    reg.registerComponents(eng::SparseArray<eng::Writable>());
+    reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
+}
+
+eng::Entity addBaba(eng::Registry &reg)
+{
+    eng::Entity baba = reg.spawnEntity();
+
+    reg.emplaceComponent(baba, Player("baba", 56));
+    reg.emplaceComponent(baba, eng::Position(32, 32, 0));
+    reg.emplaceComponent(baba, eng::Velocity(0, 0));
+    reg.emplaceComponent(baba, eng::Drawable("../assets/logo.png"));
+    reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
+    reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
+    return baba;
 }
 
 int main(void)
@@ -71,27 +95,21 @@ int main(void)
     eng::RegistryManager r;
     r.addRegistry("Registry one");
     auto reg = r.getTop();
-    eng::Entity baba = reg.spawnEntity();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
+    eng::PhysicSystems physics(gfx.getDelta());
+
     gfx.setFrameRateLimit(60);
-
-    reg.registerComponents(eng::SparseArray<Player>());
-    reg.registerComponents(eng::SparseArray<eng::Position>());
-    reg.registerComponents(eng::SparseArray<eng::Drawable>());
-    reg.registerComponents(eng::SparseArray<eng::Writable>());
-    reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
-    reg.emplaceComponent(baba, Player("baba", 56));
-    reg.emplaceComponent(baba, eng::Position(13, 13, 0));
-    reg.emplaceComponent(baba, eng::Drawable("../assets/logo.png"));
+    setupRegistry(reg);
     addText(reg);
+    eng::Entity baba = addBaba(reg);
     eng::Entity particle =  addParticleEmmiter(reg);
-
     print_infos(reg, baba);
 
     while (gfx.isWindowOpen()) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
         followMouse(particle, reg, gfx);
+        physics.applyVelocities(reg);
         gfx.clear();
         gfx.drawSystem(reg);
         gfx.writeSystem(reg);

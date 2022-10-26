@@ -22,7 +22,7 @@ namespace eng
             void applyVelocities(Registry &r);
         protected:
         private:
-            sf::Time _delta;
+            sf::Time &_delta;
     };
 } // namespace eng
 

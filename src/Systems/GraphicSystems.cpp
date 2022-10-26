@@ -46,6 +46,7 @@ void eng::GraphicSystems::drawSystem(Registry &r)
             auto position = positions[i].value();
             
             sprite.sprite.setPosition(position.x, position.y);
+            sprite.sprite.setRotation(position.rotation);
             _window.draw(sprite.sprite);
         }
     }
@@ -110,6 +111,7 @@ void eng::GraphicSystems::writeSystem(Registry &r)
             auto position = positions[i].value();
             
             text._txt.setPosition(position.x, position.y);
+            text._txt.setRotation(position.rotation);
             _window.draw(text._txt);
         }
     }

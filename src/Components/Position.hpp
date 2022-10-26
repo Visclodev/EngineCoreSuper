@@ -23,6 +23,7 @@ namespace eng
             float x;
             float y;
             float z;
+            float rotation = 0;
         protected:
         private:
     };
