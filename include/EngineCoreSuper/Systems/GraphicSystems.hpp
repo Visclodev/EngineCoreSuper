@@ -65,6 +65,8 @@ namespace eng
 
             /// @brief A system who handle specific window event
             void eventCatchWindow();
+
+            bool &isWindowFocused();
         protected:
         private:
             void _displayParticleVector(std::vector<eng::SuperParticle> vector);

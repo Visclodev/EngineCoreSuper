@@ -198,3 +198,8 @@ void eng::GraphicSystems::eventCatchWindow()
             this->_isWindowFocused = false;
     }
 }
+
+bool &eng::GraphicSystems::isWindowFocused()
+{
+    return _isWindowFocused;
+}
