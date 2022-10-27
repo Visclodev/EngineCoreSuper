@@ -109,11 +109,13 @@ int main(void)
     print_infos(reg, baba);
 
     while (gfx.isWindowOpen()) {
+        gfx.eventCatchWindow();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
         followMouse(particle, reg, gfx);
         physics.applyVelocities(reg);
         gfx.clear();
+        gfx.animateSystem(reg);
         gfx.drawSystem(reg);
         gfx.writeSystem(reg);
         gfx.particleSystem(reg);

@@ -32,6 +32,10 @@ namespace eng
             /// @param r The registry on which to apply this system
             void particleSystem(Registry &r);
 
+            /// @brief update the spritesheets rects
+            /// @param r The registry on which to apply this system
+            void animateSystem(Registry &r);
+
             /// @brief check if the window should close
             /// @return true if it should close, false if not
             bool isWindowOpen();
@@ -58,6 +62,9 @@ namespace eng
             /// @brief Set the framerate limit
             /// @param limit the frequency of updates (per seconds)
             void setFrameRateLimit(unsigned int limit);
+
+            /// @brief A system who handle specific window event
+            void eventCatchWindow();
         protected:
         private:
             void _displayParticleVector(std::vector<eng::SuperParticle> vector);
@@ -66,6 +73,8 @@ namespace eng
             sf::Time _delta;
             sf::Clock _clock;
             sf::RenderWindow _window;
+            sf::Event _event;
+            bool _isWindowFocused = true;
     };
 } // namespace eng
 

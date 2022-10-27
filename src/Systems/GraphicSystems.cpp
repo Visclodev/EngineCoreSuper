@@ -141,3 +141,60 @@ void eng::GraphicSystems::clear(sf::Color c)
 {
     _window.clear(c);
 }
+
+void eng::GraphicSystems::animateSystem(Registry &r)
+{
+    auto &sprites = r.getComponents<eng::Drawable>();
+
+    for (int i = 0; i < sprites.size(); i++) {
+        auto &spr = sprites[i];
+        
+        if (spr.has_value() && spr.value().frameTime != -1) {
+            sf::IntRect rect = spr.value().sprite.getTextureRect();
+            if (spr.value().sheetDirection != 0) {
+                spr.value().nextFrame -= _delta.asSeconds();
+            }
+            // Animate to the right
+            if (spr.value().sheetDirection == 1 && spr.value().nextFrame <= 0) {
+                rect.left += rect.width;
+                if (rect.left >= spr.value().sizeX)
+                    rect.left = 0;
+                spr.value().nextFrame = spr.value().frameTime;
+            }
+            // Animate to the left
+            if (spr.value().sheetDirection == 2 && spr.value().nextFrame <= 0) {
+                rect.left -= rect.width;
+                if (rect.left < 0)
+                    rect.left = spr.value().sizeX;
+                spr.value().nextFrame = spr.value().frameTime;
+            }
+            // Animate downward
+            if (spr.value().sheetDirection == 3 && spr.value().nextFrame <= 0) {
+                rect.top += rect.height;
+                if (rect.top >= spr.value().sizeY)
+                    rect.top = 0;
+                spr.value().nextFrame = spr.value().frameTime;
+            }
+            // Animate upward
+            if (spr.value().sheetDirection == 4 && spr.value().nextFrame <= 0) {
+                rect.top -= rect.height;
+                if (rect.top < 0)
+                    rect.top = spr.value().sizeY;
+                spr.value().nextFrame = spr.value().frameTime;
+            }
+            spr.value().sprite.setTextureRect(rect);
+        }
+    }
+}
+
+void eng::GraphicSystems::eventCatchWindow()
+{
+    while (this->_window.pollEvent(this->_event)) {
+        if (this->_event.type == sf::Event::Closed)
+            this->_window.close();
+        if (this->_event.type == sf::Event::GainedFocus)
+            this->_isWindowFocused = true;
+        if (this->_event.type == sf::Event::LostFocus)
+            this->_isWindowFocused = false;
+    }
+}
