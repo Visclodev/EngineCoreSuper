@@ -11,5 +11,6 @@
 #include "RegistryManager.hpp"
 #include "Components/SuperComponents.hpp"
 #include "Systems/SuperSystems.hpp"
+#include "TextureManager.hpp"
 
 #endif /* !ENGINE_HPP_ */
