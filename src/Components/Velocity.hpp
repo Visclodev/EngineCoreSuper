@@ -16,12 +16,12 @@ namespace eng
             /// @brief Velocity object constructor
             /// @param _x horizontal velocity
             /// @param _y vertical velocity
-            Velocity(float _x = 0, float _y = 0): x(_x), y(_y) {} 
+            Velocity(float _x = 0, float _y = 0, float _angular = 0.0): x(_x), y(_y), angular(_angular) {} 
             ~Velocity() {}
 
             float x;
             float y;
-            float angular = 0;
+            float angular;
         protected:
         private:
     };
