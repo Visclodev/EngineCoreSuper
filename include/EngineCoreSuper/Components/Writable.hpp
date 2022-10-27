@@ -42,7 +42,11 @@ namespace eng
                 _txt.setStyle(style);
                 _name = name;
             }
-            ~Writable() {}
+            ~Writable() {
+                delete _content;
+                delete _font;
+                delete _color;
+            }
             sf::String *_content = new sf::String;
             sf::Font *_font = new sf::Font;
             sf::Color *_color = new sf::Color;

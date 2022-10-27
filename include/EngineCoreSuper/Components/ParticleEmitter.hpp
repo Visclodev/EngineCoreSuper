@@ -75,7 +75,7 @@ namespace eng
             void setAcceleration(float acceleration, float maxAcceleration);
             void setBaseRotation(float rotation, float maxRotation);
             void setTorque(float torque, float maxTorque);
-            void setParticleColor(sf::Color color, sf::Color maxColor);
+            void setParticleColorRandom(bool value);
         private:
             std::vector<eng::SuperParticle> _particles;
             sf::Texture *_texture = new sf::Texture();
@@ -102,7 +102,6 @@ namespace eng
             // -Color
             bool _randomColor = false;
             sf::Color _color = sf::Color::White;
-            sf::Color _colorMax = sf::Color::White;
 
             // Timers
             float _lifeTime = 5;
