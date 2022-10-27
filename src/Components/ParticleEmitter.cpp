@@ -55,6 +55,9 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
         float baseSpeed = _baseSpeed;
         if (_randomSpeed)
             baseSpeed += rand() % int(_baseSpeedMax - _baseSpeed);
+        sf::Color color = _color;
+        if (_randomColor)
+            color = sf::Color(rand() % 255, rand() % 255, rand() % 255, 255);
         _particles.push_back(
             eng::SuperParticle(*_texture, _color, baseSpeed, baseRotation,
             x, y)
@@ -131,21 +134,23 @@ void eng::ParticleEmitter::setParticleTexture(int type, std::string filepath)
 
 void eng::ParticleEmitter::setParticleColor(sf::Color color)
 {
-    _randomColor = false;
     this->_color = color;
 }
 
 void eng::ParticleEmitter::setParticleColor(int r, int g, int b, int a)
 {
-    _randomColor = false;
     this->_color = sf::Color(r, g, b, a);
 }
 
 void eng::ParticleEmitter::setParticleColor(sf::Color color, sf::Color maxColor)
 {
-    _randomColor = true;
     _color = color;
     _colorMax = maxColor;
+}
+
+void eng::ParticleEmitter::setParticleColorRandom(bool value)
+{
+    _randomColor = true;
 }
 
 void eng::ParticleEmitter::setBaseSpeed(float speed)

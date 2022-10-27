@@ -55,13 +55,13 @@ eng::Entity addParticleEmmiter(eng::Registry &r)
     auto &emitter = r.getComponents<eng::ParticleEmitter>()[particles.getId()].value();
     
     emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
+    emitter.setParticleColorRandom(true);
     emitter.setBaseSpeed(100, 250);
     emitter.setBaseRotation(0, 360);
     emitter.setTorque(10);
-    emitter.setEmittingRate(0.01);
+    emitter.setEmittingRate(0.001);
     emitter.setAcceleration(-10);
     emitter.setMaxNumber(100000);
-    emitter.setParticleColor(255, 255, 255, 150);
     emitter.setLifetime(5);
     emitter.isLocal = false;
     return particles;
@@ -77,14 +77,14 @@ void setupRegistry(eng::Registry &reg)
     reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
 }
 
-eng::Entity addBaba(eng::Registry &reg)
+eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
 {
     eng::Entity baba = reg.spawnEntity();
 
     reg.emplaceComponent(baba, Player("baba", 56));
     reg.emplaceComponent(baba, eng::Position(32, 32, 0));
     reg.emplaceComponent(baba, eng::Velocity(0, 0));
-    reg.emplaceComponent(baba, eng::Drawable("../assets/logo.png"));
+    reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
     reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
     reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
     return baba;
@@ -97,11 +97,14 @@ int main(void)
     auto reg = r.getTop();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
     eng::PhysicSystems physics(gfx.getDelta());
+    eng::TextureManager tm;
 
     gfx.setFrameRateLimit(60);
     setupRegistry(reg);
     addText(reg);
-    eng::Entity baba = addBaba(reg);
+    eng::Entity baba(0);
+    for (int i = 0; i < 10000; i++)
+        baba = addBaba(reg, tm);
     eng::Entity particle =  addParticleEmmiter(reg);
     print_infos(reg, baba);
 

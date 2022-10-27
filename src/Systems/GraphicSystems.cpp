@@ -42,8 +42,8 @@ void eng::GraphicSystems::drawSystem(Registry &r)
 
     for (int i = 0; i < sprites.size() && i < positions.size(); i++) {
         if (sprites[i].has_value() && positions[i].has_value()) {
-            auto sprite = sprites[i].value();
-            auto position = positions[i].value();
+            auto &sprite = sprites[i].value();
+            auto &position = positions[i].value();
             
             sprite.sprite.setPosition(position.x, position.y);
             sprite.sprite.setRotation(position.rotation);
@@ -107,8 +107,8 @@ void eng::GraphicSystems::writeSystem(Registry &r)
 
     for (int i = 0; i < texts.size() && i < positions.size(); i++) {
         if (texts[i].has_value() && positions[i].has_value()) {
-            auto text = texts[i].value();
-            auto position = positions[i].value();
+            auto &text = texts[i].value();
+            auto &position = positions[i].value();
             
             text._txt.setPosition(position.x, position.y);
             text._txt.setRotation(position.rotation);
