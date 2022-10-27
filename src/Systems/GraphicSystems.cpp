@@ -203,3 +203,8 @@ bool &eng::GraphicSystems::isWindowFocused()
 {
     return _isWindowFocused;
 }
+
+void eng::GraphicSystems::closeWindow()
+{
+    this->_window.close();
+}
