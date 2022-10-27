@@ -23,9 +23,7 @@ namespace eng
                 buffer->loadFromFile(filepath);
                 sound.setBuffer(*buffer);
             }
-            ~Sound() {
-                delete buffer;
-            }
+            ~Sound() {}
 
             sf::SoundBuffer *buffer = new sf::SoundBuffer;
             sf::Sound sound;

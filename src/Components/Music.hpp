@@ -20,9 +20,7 @@ namespace eng
                 music->openFromFile(filepath);
                 music->setVolume(50);
             }
-            ~Music() {
-                delete music;
-            }
+            ~Music() {}
 
             sf::Music *music = new sf::Music();
             bool toPlay;

@@ -48,6 +48,9 @@ namespace eng
             SparseArray<Component> &getComponents() {
                 std::type_index t = typeid(SparseArray<Component>);
                 std::any &res = _containers[t];
+                // if (getDebugMode())
+                //     _log.log(_name + ": getting of component array "
+                //     + typeid(SparseArray<Component>).name());
                 return std::any_cast<SparseArray<Component> &>(res);
             }
 
