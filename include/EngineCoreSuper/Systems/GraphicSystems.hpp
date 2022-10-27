@@ -67,6 +67,8 @@ namespace eng
             void eventCatchWindow();
 
             bool &isWindowFocused();
+
+            void closeWindow();
         protected:
         private:
             void _displayParticleVector(std::vector<eng::SuperParticle> vector);
