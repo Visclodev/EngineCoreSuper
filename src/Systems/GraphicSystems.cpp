@@ -95,7 +95,9 @@ std::vector<eng::SuperParticle> particles, float x, float y)
     auto it = particles.begin();
 
     for (; it != particles.end(); it++) {
-        it->sprite.setPosition(x, y);
+        float new_x = (x + it->sprite.getPosition().x);
+        float new_y = (y + it->sprite.getPosition().y);
+        it->sprite.setPosition(new_x, new_y);
         _window.draw(it->sprite);
     }
 }

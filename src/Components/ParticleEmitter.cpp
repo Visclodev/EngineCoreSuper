@@ -35,13 +35,13 @@ void eng::ParticleEmitter::killOldparticles(float delta)
 void eng::ParticleEmitter::applyAcceleration(float delta)
 {
     for (auto it = _particles.begin(); it != _particles.end(); it++)
-        it->currentSpeed += (delta * _acceleration);
+        it->currentSpeed += (delta * it->selfAcceleration);
 }
 
 void eng::ParticleEmitter::applyTorque(float delta)
 {
     for (auto it = _particles.begin(); it != _particles.end(); it++)
-        it->currentRotation += (delta * _torque);
+        it->currentRotation += (delta * it->selfAngular);
 }
 
 void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
@@ -52,15 +52,25 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
         float baseRotation = _baseRotation;
         if (_randomRotation)
             baseRotation += rand() % int(_baseRotationMax - _baseRotation);
+
         float baseSpeed = _baseSpeed;
         if (_randomSpeed)
             baseSpeed += rand() % int(_baseSpeedMax - _baseSpeed);
+
+        float accel = _acceleration;
+        if (_randomAcceleration)
+            accel += rand() % int(_acceleration - _accelerationMax);
+        
+        float ang = _torque;
+        if (_randomTorque)
+            ang += rand() % int(_torque - _torqueMax);
+
         sf::Color color = _color;
         if (_randomColor)
             color = sf::Color(rand() % 255, rand() % 255, rand() % 255, 255);
         _particles.push_back(
-            eng::SuperParticle(*_texture, _color, baseSpeed, baseRotation,
-            x, y)
+            eng::SuperParticle(*_texture, color, baseSpeed, baseRotation,
+            accel, ang, x, y)
         );
         _nextEmission = _emissionRate;
     }

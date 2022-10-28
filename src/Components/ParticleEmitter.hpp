@@ -23,8 +23,10 @@ namespace eng
     class SuperParticle {
         public:
             SuperParticle(sf::Texture &t, sf::Color c, float speed,
-            float rotation, float x, float y):
-            currentSpeed(speed), currentRotation(rotation)
+            float rotation, float acceleration, float angular,
+            float x, float y):
+            currentSpeed(speed), currentRotation(rotation),
+            selfAcceleration(acceleration), selfAngular(angular)
             {
                 sprite.setTexture(t);
                 sprite.setColor(c);
@@ -36,6 +38,8 @@ namespace eng
             float lifeTime = 0;
             float currentSpeed;
             float currentRotation;
+            float selfAcceleration;
+            float selfAngular;
             sf::Sprite sprite;
             std::array<float, 2> direction;
         private:
@@ -55,6 +59,7 @@ namespace eng
             void setParticleTexture(int type);
             void setParticleTexture(int type, std::string filepath);
             void setLifetime(float lifetime);
+            // Broken, let it set to false
             bool isLocal = true;
             void setEmittingRate(float rate);
             void setMaxNumber(float maxNumber);
