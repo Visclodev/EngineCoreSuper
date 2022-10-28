@@ -48,7 +48,7 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
 {
     _nextEmission -= delta;
 
-    if (_nextEmission <= 0) {
+    while (_nextEmission < 0) {
         float baseRotation = _baseRotation;
         if (_randomRotation)
             baseRotation += rand() % int(_baseRotationMax - _baseRotation);
@@ -72,7 +72,7 @@ void eng::ParticleEmitter::emitParticle(float delta, float x, float y)
             eng::SuperParticle(*_texture, color, baseSpeed, baseRotation,
             accel, ang, x, y)
         );
-        _nextEmission = _emissionRate;
+        _nextEmission += _emissionRate;
     }
 }
 
