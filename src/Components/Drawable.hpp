@@ -81,6 +81,7 @@ namespace eng
             sf::Sprite sprite;
             int sizeX;
             int sizeY;
+            bool protect = false;
         protected:
         private:
             bool _holdTexture = false;
