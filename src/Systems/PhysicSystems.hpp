@@ -56,9 +56,9 @@ namespace eng
             void _bounce(eng::Position &p, eng::Velocity &v,
             std::array<float, 2> oldP);
 
-            bool _isColliding(int id, eng::RectCollider &rect,
+            int _isColliding(int id, eng::RectCollider &rect,
             eng::Registry &r);
-            bool _isColliding(int id, eng::CircleCollider &circle,
+            int _isColliding(int id, eng::CircleCollider &circle,
             eng::Registry &r);
 
             sf::Time &_delta;

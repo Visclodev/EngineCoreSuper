@@ -36,6 +36,7 @@ void print_infos(eng::Registry &reg, eng::Entity &baba)
     std::cout << "He is at: {" << reg.getComponents<eng::Position>()[baba.getId()].value().x;
     std::cout << ", " << reg.getComponents<eng::Position>()[baba.getId()].value().y;
     std::cout << "}" << std::endl;
+    std::cout << "His registry id is " << baba.getId() << std::endl;
 }
 
 void addText(eng::Registry &r)
@@ -86,7 +87,7 @@ eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
 
     reg.emplaceComponent(baba, Player("baba", 56));
     reg.emplaceComponent(baba, eng::Position(32, 32, 0));
-    reg.emplaceComponent(baba, eng::Velocity(1000, 0));
+    reg.emplaceComponent(baba, eng::Velocity(1500, 0));
     reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
     reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::CIRCLE, true, 0.5));
     reg.emplaceComponent(baba, eng::CircleCollider(32));
@@ -100,10 +101,10 @@ eng::Entity addBoubou(eng::Registry &reg, eng::TextureManager &tm)
     eng::Entity baba = reg.spawnEntity();
 
     reg.emplaceComponent(baba, Player("baba", 56));
-    reg.emplaceComponent(baba, eng::Position(750, 50, 0));
+    reg.emplaceComponent(baba, eng::Position(750, 0, 0));
     reg.emplaceComponent(baba, eng::Velocity(0, 0));
     reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
-    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::RECTANGLE, false));
+    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::RECTANGLE));
     reg.emplaceComponent(baba, eng::RectCollider(32, 32));
     reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
     reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);

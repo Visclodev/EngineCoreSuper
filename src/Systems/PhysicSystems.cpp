@@ -66,6 +66,7 @@ void eng::PhysicSystems::moveAndCollide(Registry &r)
     auto &rcColliders = r.getComponents<RectCollider>();
     auto &positions = r.getComponents<Position>();
     std::array<float, 2> oldPos;
+    int cId = 0;
 
     // Go through the registry
     for (int i = 0; i < velocities.size() && i < positions.size(); i++) {
@@ -82,12 +83,14 @@ void eng::PhysicSystems::moveAndCollide(Registry &r)
             // if this is a rigidbody, then get the collider and check collision
             if (i < rigidbodies.size() && rigidbodies[i].has_value()) {
                 auto &rb = rigidbodies[i].value();
-                if (rb.colliderType == RigidBody::ColliderType::RECTANGLE) {
-                    if (_isColliding(i, rcColliders[i].value(), r))
-                        _bounce(po, vl, oldPos);
-                } else {
-                    if (_isColliding(i, spColliders[i].value(), r))
-                        _bounce(po, vl, oldPos);
+                if (rb.colliderType == RigidBody::ColliderType::RECTANGLE)
+                    cId = _isColliding(i, rcColliders[i].value(), r);
+                else
+                    cId = _isColliding(i, spColliders[i].value(), r);
+                if (cId != -1) {
+                    _bounce(po, vl, oldPos);
+                    velocities[cId].value().x += -vl.x;
+                    velocities[cId].value().y += -vl.y;
                 }
             }
         }
@@ -110,7 +113,7 @@ std::array<float, 2> oldP)
     v.y = -v.y * 0.5;
 }
 
-bool eng::PhysicSystems::_isColliding(int id, eng::RectCollider &rect,
+int eng::PhysicSystems::_isColliding(int id, eng::RectCollider &rect,
 eng::Registry &r)
 {
     auto &positions = r.getComponents<Position>();
@@ -125,18 +128,18 @@ eng::Registry &r)
             if (rb.colliderType == eng::RigidBody::ColliderType::CIRCLE) {
                 auto &c = r.getComponents<CircleCollider>()[i].value();
                 if (areCircleAndRectColliding(position, c, p, rect))
-                    return true;
+                    return i;
             } else if (rb.colliderType == eng::RigidBody::ColliderType::RECTANGLE) {
                 auto &c = r.getComponents<RectCollider>()[i].value();
                 if (areRectColliding(position, rect, p, c))
-                    return true;
+                    return i;
             }
         }
     }
-    return false;
+    return -1;
 }
 
-bool eng::PhysicSystems::_isColliding(int id, eng::CircleCollider &circle,
+int eng::PhysicSystems::_isColliding(int id, eng::CircleCollider &circle,
 eng::Registry &r)
 {
     auto &positions = r.getComponents<Position>();
@@ -151,15 +154,15 @@ eng::Registry &r)
             if (rb.colliderType == eng::RigidBody::ColliderType::CIRCLE) {
                 auto &c = r.getComponents<CircleCollider>()[i].value();
                 if (areCircleColliding(position, circle, p, c))
-                    return true;
+                    return i;
             } else if (rb.colliderType == eng::RigidBody::ColliderType::RECTANGLE) {
                 auto &c = r.getComponents<RectCollider>()[i].value();
                 if (areCircleAndRectColliding(position, circle, p, c))
-                    return true;
+                    return i;
             }
         }
     }
-    return false;
+    return -1;
 }
 
 // Fast square root
