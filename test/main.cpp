@@ -75,7 +75,7 @@ void setupRegistry(eng::Registry &reg)
     reg.registerComponents(eng::SparseArray<eng::Velocity>());
     reg.registerComponents(eng::SparseArray<eng::Writable>());
     reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
-    reg.registerComponents(eng::SparseArray<eng::SphereCollider>());
+    reg.registerComponents(eng::SparseArray<eng::CircleCollider>());
     reg.registerComponents(eng::SparseArray<eng::RectCollider>());
     reg.registerComponents(eng::SparseArray<eng::RigidBody>());
 }
@@ -88,8 +88,8 @@ eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
     reg.emplaceComponent(baba, eng::Position(32, 32, 0));
     reg.emplaceComponent(baba, eng::Velocity(1000, 0));
     reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
-    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::SPHERE, true, 0.5));
-    reg.emplaceComponent(baba, eng::SphereCollider(32));
+    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::CIRCLE, true, 0.5));
+    reg.emplaceComponent(baba, eng::CircleCollider(32));
     reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
     reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
     return baba;

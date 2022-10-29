@@ -62,7 +62,7 @@ void eng::PhysicSystems::moveAndCollide(Registry &r)
 {
     auto &velocities = r.getComponents<Velocity>();
     auto &rigidbodies = r.getComponents<RigidBody>();
-    auto &spColliders = r.getComponents<SphereCollider>();
+    auto &spColliders = r.getComponents<CircleCollider>();
     auto &rcColliders = r.getComponents<RectCollider>();
     auto &positions = r.getComponents<Position>();
     std::array<float, 2> oldPos;
@@ -122,9 +122,9 @@ eng::Registry &r)
         if (i != id && positions[i].has_value() && rigidbodies[i].has_value()) {
             auto &p = positions[i].value();
             auto &rb = rigidbodies[i].value();
-            if (rb.colliderType == eng::RigidBody::ColliderType::SPHERE) {
-                auto &c = r.getComponents<SphereCollider>()[i].value();
-                if (areSphereAndRectColliding(position, c, p, rect))
+            if (rb.colliderType == eng::RigidBody::ColliderType::CIRCLE) {
+                auto &c = r.getComponents<CircleCollider>()[i].value();
+                if (areCircleAndRectColliding(position, c, p, rect))
                     return true;
             } else if (rb.colliderType == eng::RigidBody::ColliderType::RECTANGLE) {
                 auto &c = r.getComponents<RectCollider>()[i].value();
@@ -136,7 +136,7 @@ eng::Registry &r)
     return false;
 }
 
-bool eng::PhysicSystems::_isColliding(int id, eng::SphereCollider &sphere,
+bool eng::PhysicSystems::_isColliding(int id, eng::CircleCollider &circle,
 eng::Registry &r)
 {
     auto &positions = r.getComponents<Position>();
@@ -148,13 +148,13 @@ eng::Registry &r)
         if (i != id && positions[i].has_value() && rigidbodies[i].has_value()) {
             auto &p = positions[i].value();
             auto &rb = rigidbodies[i].value();
-            if (rb.colliderType == eng::RigidBody::ColliderType::SPHERE) {
-                auto &c = r.getComponents<SphereCollider>()[i].value();
-                if (areSphereColliding(position, sphere, p, c))
+            if (rb.colliderType == eng::RigidBody::ColliderType::CIRCLE) {
+                auto &c = r.getComponents<CircleCollider>()[i].value();
+                if (areCircleColliding(position, circle, p, c))
                     return true;
             } else if (rb.colliderType == eng::RigidBody::ColliderType::RECTANGLE) {
                 auto &c = r.getComponents<RectCollider>()[i].value();
-                if (areSphereAndRectColliding(position, sphere, p, c))
+                if (areCircleAndRectColliding(position, circle, p, c))
                     return true;
             }
         }
@@ -180,8 +180,8 @@ static float fsqr(const float x)
     return (x * x);
 }
 
-bool eng::PhysicSystems::areSphereColliding(eng::Position &posA,
-eng::SphereCollider &spA, eng::Position &posB, eng::SphereCollider &spB)
+bool eng::PhysicSystems::areCircleColliding(eng::Position &posA,
+eng::CircleCollider &spA, eng::Position &posB, eng::CircleCollider &spB)
 {
     float distance = fsqr(posB.x - posA.x) + fsqr(posB.y - posA.y);
     return (distance < fsqr(spA.radius + spB.radius));
@@ -196,8 +196,8 @@ eng::RectCollider &rcA, eng::Position &posB, eng::RectCollider &rcB)
     || (posB.y + rcB.height <= posA.y));
 }
 
-bool eng::PhysicSystems::areSphereAndRectColliding(eng::Position &posA,
-eng::SphereCollider &spA, eng::Position &posB, eng::RectCollider &rcB)
+bool eng::PhysicSystems::areCircleAndRectColliding(eng::Position &posA,
+eng::CircleCollider &spA, eng::Position &posB, eng::RectCollider &rcB)
 {
     // First check AABB
     if ((posB.x >= posA.x + spA.radius)

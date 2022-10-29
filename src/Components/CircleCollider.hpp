@@ -2,20 +2,20 @@
 ** EPITECH PROJECT, 2022
 ** EngineCoreSuper
 ** File description:
-** SphereCollider
+** CircleCollider
 */
 
-#ifndef SPHERECOLLIDER_HPP_
-#define SPHERECOLLIDER_HPP_
+#ifndef CIRCLECOLLIDER_HPP_
+#define CIRCLECOLLIDER_HPP_
 
 namespace eng
 {
-    class SphereCollider {
+    class CircleCollider {
         public:
-            SphereCollider(int radius_):
+            CircleCollider(int radius_):
             radius(radius_)
             {}
-            ~SphereCollider() {}
+            ~CircleCollider() {}
 
             int radius;
         protected:
@@ -23,4 +23,4 @@ namespace eng
     };
 } // namespace eng
 
-#endif /* !SPHERECOLLIDER_HPP_ */
+#endif /* !CIRCLECOLLIDER_HPP_ */

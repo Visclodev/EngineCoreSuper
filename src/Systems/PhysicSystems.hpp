@@ -23,15 +23,15 @@ namespace eng
             void applyGravity(Registry &r);
             void moveAndCollide(Registry &r);
 
-            /// @brief Checks if a Sphere collides with another
-            /// @param posA the position of the first sphere
-            /// @param spA the first sphere (a)
-            /// @param posB the position of the second sphere
-            /// @param spB the second sphere (b)
+            /// @brief Checks if a Circle collides with another
+            /// @param posA the position of the first circle
+            /// @param spA the first circle (a)
+            /// @param posB the position of the second circle
+            /// @param spB the second circle (b)
             /// @return True if a and b are colliding
-            bool areSphereColliding(eng::Position &posA,
-            eng::SphereCollider &spA, eng::Position &posB,
-            eng::SphereCollider &spB);
+            bool areCircleColliding(eng::Position &posA,
+            eng::CircleCollider &spA, eng::Position &posB,
+            eng::CircleCollider &spB);
 
             /// @brief Checks if a Rectangle collides with another
             /// @param posA the position of the first rectangle
@@ -42,14 +42,14 @@ namespace eng
             bool areRectColliding(eng::Position &posA, eng::RectCollider &rcA,
             eng::Position &posB, eng::RectCollider &rcB);
 
-            /// @brief Checks if a Sphere collides with a rectangle
-            /// @param posA the position of the sphere
-            /// @param spA the sphere (a)
+            /// @brief Checks if a Circle collides with a rectangle
+            /// @param posA the position of the circle
+            /// @param spA the circle (a)
             /// @param posB the position of the rectangle
             /// @param spB the rectangle (b)
             /// @return True if a and b are colliding
-            bool areSphereAndRectColliding(eng::Position &posA,
-            eng::SphereCollider &spA, eng::Position &posB, eng::RectCollider &rcB);
+            bool areCircleAndRectColliding(eng::Position &posA,
+            eng::CircleCollider &spA, eng::Position &posB, eng::RectCollider &rcB);
         protected:
         private:
             void _addVel(eng::Position &p, eng::Velocity &v);
@@ -58,7 +58,7 @@ namespace eng
 
             bool _isColliding(int id, eng::RectCollider &rect,
             eng::Registry &r);
-            bool _isColliding(int id, eng::SphereCollider &sphere,
+            bool _isColliding(int id, eng::CircleCollider &circle,
             eng::Registry &r);
 
             sf::Time &_delta;

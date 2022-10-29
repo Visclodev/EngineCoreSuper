@@ -13,7 +13,7 @@ namespace eng
     class RigidBody {
         public:
             enum ColliderType {
-                SPHERE,
+                CIRCLE,
                 RECTANGLE
             };
 
