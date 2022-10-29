@@ -17,5 +17,6 @@
 #include "ParticleEmitter.hpp"
 #include "RigidBody.hpp"
 #include "SphereCollider.hpp"
+#include "RectCollider.hpp"
 
 #endif /* !SUPERCOMPONENTS_HPP_ */
