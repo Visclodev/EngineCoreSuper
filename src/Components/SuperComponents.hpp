@@ -15,5 +15,7 @@
 #include "Music.hpp"
 #include "Sound.hpp"
 #include "ParticleEmitter.hpp"
+#include "RigidBody.hpp"
+#include "SphereCollider.hpp"
 
 #endif /* !SUPERCOMPONENTS_HPP_ */

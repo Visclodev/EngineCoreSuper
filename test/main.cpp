@@ -56,13 +56,13 @@ eng::Entity addParticleEmmiter(eng::Registry &r)
     
     emitter.setParticleTexture(eng::PARTICLE_TYPE::Pixel);
     emitter.setParticleColorRandom(true);
-    emitter.setBaseSpeed(100, 250);
+    emitter.setBaseSpeed(30, 100);
     emitter.setBaseRotation(0, 360);
-    emitter.setTorque(10);
+    emitter.setAcceleration(100);
+    emitter.setTorque(-50, 100);
     emitter.setEmittingRate(0.001);
-    emitter.setAcceleration(-10);
-    emitter.setMaxNumber(100000);
-    emitter.setLifetime(5);
+    emitter.setMaxNumber(10000);
+    emitter.setLifetime(1);
     emitter.isLocal = false;
     return particles;
 }
@@ -75,6 +75,8 @@ void setupRegistry(eng::Registry &reg)
     reg.registerComponents(eng::SparseArray<eng::Velocity>());
     reg.registerComponents(eng::SparseArray<eng::Writable>());
     reg.registerComponents(eng::SparseArray<eng::ParticleEmitter>());
+    reg.registerComponents(eng::SparseArray<eng::SphereCollider>());
+    reg.registerComponents(eng::SparseArray<eng::RigidBody>());
 }
 
 eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
@@ -85,6 +87,23 @@ eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
     reg.emplaceComponent(baba, eng::Position(32, 32, 0));
     reg.emplaceComponent(baba, eng::Velocity(0, 0));
     reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
+    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::SPHERE, true, 0.5));
+    reg.emplaceComponent(baba, eng::SphereCollider(32));
+    reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
+    reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
+    return baba;
+}
+
+eng::Entity addBoubou(eng::Registry &reg, eng::TextureManager &tm)
+{
+    eng::Entity baba = reg.spawnEntity();
+
+    reg.emplaceComponent(baba, Player("baba", 56));
+    reg.emplaceComponent(baba, eng::Position(32, 1000, 0));
+    reg.emplaceComponent(baba, eng::Velocity(0, 0));
+    reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
+    reg.emplaceComponent(baba, eng::RigidBody(eng::RigidBody::ColliderType::SPHERE, false));
+    reg.emplaceComponent(baba, eng::SphereCollider(32));
     reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
     reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
     return baba;
@@ -97,14 +116,16 @@ int main(void)
     auto reg = r.getTop();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
     eng::PhysicSystems physics(gfx.getDelta());
+    gfx.setFrameRateLimit(360);
     eng::TextureManager tm;
 
     gfx.setFrameRateLimit(60);
     setupRegistry(reg);
     addText(reg);
     eng::Entity baba(0);
-    for (int i = 0; i < 10000; i++)
-        baba = addBaba(reg, tm);
+    eng::Entity boubou(0);
+    baba = addBaba(reg, tm);
+    boubou = addBoubou(reg, tm);
     eng::Entity particle =  addParticleEmmiter(reg);
     print_infos(reg, baba);
 
@@ -113,7 +134,9 @@ int main(void)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
         followMouse(particle, reg, gfx);
-        physics.applyVelocities(reg);
+        physics.moveAndCollide(reg);
+        physics.applyGravity(reg);
+        //physics.applyRigidBodyCollisions(reg);
         gfx.clear();
         gfx.animateSystem(reg);
         gfx.drawSystem(reg);
