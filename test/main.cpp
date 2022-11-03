@@ -90,6 +90,29 @@ eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
     return baba;
 }
 
+void moveBaba(eng::Registry &r, eng::Entity &baba, eng::SuperInput &inputs)
+{
+    float speed = 1000 * inputs.getActionStrength("speed");
+    if (speed < 0)
+        speed = 0;
+    r.getComponents<eng::Velocity>()[baba.getId()].value().x = inputs.getActionStrength("move_x") * speed;
+    r.getComponents<eng::Velocity>()[baba.getId()].value().y = inputs.getActionStrength("move_y") * speed;
+}
+
+void setInputs(eng::SuperInput &inputs)
+{
+    inputs.addAction("speed");
+    inputs.addAction("move_x");
+    inputs.addAction("move_y");
+    inputs.addEvent("speed", eng::SuperInput::JoyAnalog::rightTrigger, 0);
+    inputs.addEvent("move_x", eng::SuperInput::JoyAnalog::dpadX, 0);
+    inputs.addEvent("move_y", eng::SuperInput::JoyAnalog::dpadY, 0);
+    inputs.addEvent("move_x", eng::SuperInput::JoyAnalog::leftStickX, 0);
+    inputs.addEvent("move_y", eng::SuperInput::JoyAnalog::leftStickY, 0);
+    inputs.addEvent("move_x", eng::SuperInput::JoyAnalog::rightStickX, 0);
+    inputs.addEvent("move_y", eng::SuperInput::JoyAnalog::rightStickY, 0);
+}
+
 int main(void)
 {
     eng::RegistryManager r;
@@ -98,7 +121,9 @@ int main(void)
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
     eng::PhysicSystems physics(gfx.getDelta());
     eng::TextureManager tm;
+    eng::SuperInput inputs(gfx.getRenderWindow());
 
+    setInputs(inputs);
     gfx.setFrameRateLimit(60);
     setupRegistry(reg);
     addText(reg);
@@ -109,6 +134,8 @@ int main(void)
     print_infos(reg, baba);
 
     while (gfx.isWindowOpen()) {
+        inputs.updateEvents();
+        moveBaba(reg, baba, inputs);
         gfx.eventCatchWindow();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
