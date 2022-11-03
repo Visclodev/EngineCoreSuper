@@ -87,7 +87,37 @@ eng::Entity addBaba(eng::Registry &reg, eng::TextureManager &tm)
     reg.emplaceComponent(baba, eng::Drawable(tm.getTextureFromFile("../assets/logo.png")));
     reg.getComponents<eng::Velocity>()[baba.getId()].value().angular = 90;
     reg.getComponents<eng::Drawable>()[baba.getId()].value().sprite.setOrigin(16, 16);
+
+    if (rand() % 3 == 0) reg.emplaceComponent(baba, eng::Writable("Name"));
     return baba;
+}
+
+// A function to show on exemple of getEntity using
+void getEntityFunctionExample(eng::Registry &r)
+{
+    std::vector<int> velocityMatchs = r.getEntities<eng::Velocity>();
+    std::vector<int> velocityAndPositionMatchs = r.getEntities<eng::Position, eng::Velocity>();
+    std::vector<int> allThreeMatches = r.getEntities<eng::Position, eng::Velocity, eng::Writable>();
+
+    std::cout << "In registry " << r.getName() << ":" << std::endl;
+    std::cout << "Entities having a velocity :" << std::endl;
+    for (int i = 0; i < velocityMatchs.size(); i++) {
+        std::cout << velocityMatchs[i];
+        if (i == velocityMatchs.size() - 1) std::cout << std::endl << std::endl;
+        else std::cout << ", ";
+    }
+    std::cout << "Entities having a velocity and a position:" << std::endl;
+    for (int i = 0; i < velocityAndPositionMatchs.size(); i++) {
+        std::cout << velocityAndPositionMatchs[i];
+        if (i == velocityAndPositionMatchs.size() - 1) std::cout << std::endl << std::endl;
+        else std::cout << ", ";
+    }
+    std::cout << "Entities having all three :" << std::endl;
+    for (int i = 0; i < allThreeMatches.size(); i++) {
+        std::cout << allThreeMatches[i];
+        if (i == allThreeMatches.size() - 1) std::cout << std::endl << std::endl;
+        else std::cout << ", ";
+    }
 }
 
 int main(void)
@@ -103,8 +133,10 @@ int main(void)
     setupRegistry(reg);
     addText(reg);
     eng::Entity baba(0);
-    for (int i = 0; i < 10000; i++)
-        baba = addBaba(reg, tm);
+    for (int i = 0; i < 200; i++) {
+            baba = addBaba(reg, tm);
+    }
+    getEntityFunctionExample(reg);
     eng::Entity particle =  addParticleEmmiter(reg);
     print_infos(reg, baba);
 

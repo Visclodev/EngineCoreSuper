@@ -54,6 +54,66 @@ namespace eng
                 return std::any_cast<SparseArray<Component> &>(res);
             }
 
+            /// @brief Check if an entity match a specific Component
+            /// @tparam Component The component to check
+            /// @param entity The entity to check
+            /// @return True if matching, false otherwise
+            template <typename Component>
+            bool checkComponent(int entity) {
+                auto &list = getComponents<Component>();
+
+                if (entity < list.size() && list[entity].has_value())
+                    return true;
+                else
+                    return false;
+            }
+
+            /// @brief Check if an entity match a specific list of Component
+            /// @tparam First The first component to check
+            /// @tparam Next The second component to check
+            /// @tparam ...Rest The other components to check
+            /// @param entity The entity to check
+            /// @return True if matching, false otherwise
+            template <typename First, typename Next, typename... Rest>
+            bool checkComponent(int entity) {
+                auto &list = getComponents<First>();
+
+                if (entity < list.size() && list[entity].has_value() && checkComponent<Next, Rest...>(entity))
+                    return true;
+                else
+                    return false;
+            }
+
+            /// @brief Get all entities holding a Specific list of Component
+            /// @tparam First The first component to check
+            /// @tparam Next The second component to check
+            /// @tparam ...Rest The other components to check
+            /// @return A vector of matching entity (int)
+            template <typename First, typename Next, typename... Rest>
+            std::vector<int> getEntities() {
+                std::vector<int> res;
+                auto &list = getComponents<First>();
+                for (int i = 0; i < list.size(); i++) {
+                    if (list[i].has_value() && checkComponent<Next, Rest...>(i))
+                        res.push_back(i);
+                }
+                return res;
+            }
+
+            /// @brief Get all entities holding a Specific Component
+            /// @tparam Component The type of Component to match
+            /// @return A vector of matching entity (int)
+            template <typename Component>
+            std::vector<int> getEntities() {
+                std::vector<int> res;
+                auto &list = getComponents<Component>();
+                for (int i = 0; i < list.size(); i++) {
+                    if (list[i].has_value())
+                        res.push_back(i);
+                }
+                return res;
+            }
+
             /// @brief Spawns a new entity while keeping the arrays small
             /// @return The entity
             Entity spawnEntity() {
