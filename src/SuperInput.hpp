@@ -60,7 +60,6 @@ namespace eng
             void addEvent(std::string action, eng::SuperInput::MouseButton buttonEvent);
             void clearEvent(std::string action);
 
-            void oldUpdateEvents();
             void updateEvents();
 
             float getActionStrength(std::string action);

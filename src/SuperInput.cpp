@@ -37,7 +37,8 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::JoystickButtonPressed) {
-            std::pair<int, JoyButton> pair(event.joystickButton.joystickId, (JoyButton)event.joystickButton.button);
+            std::pair<int, JoyButton> pair(event.joystickButton.joystickId,
+            (JoyButton)event.joystickButton.button);
             auto it = _buttonEvents[pair].begin();
             for (; it != _buttonEvents[pair].end(); it++) {
                 _setInput(*it, 1.0f);
@@ -57,7 +58,8 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::JoystickButtonReleased) {
-            std::pair<int, JoyButton> pair(event.joystickButton.joystickId, (JoyButton)event.joystickButton.button);
+            std::pair<int, JoyButton> pair(event.joystickButton.joystickId,
+            (JoyButton)event.joystickButton.button);
             auto it = _buttonEvents[pair].begin();
             for (; it != _buttonEvents[pair].end(); it++) {
                 _setInput(*it, 0.0f);
@@ -66,14 +68,14 @@ void eng::SuperInput::updateEvents()
         if (event.type == sf::Event::MouseButtonReleased) {
             auto it = _mouseEvents[(MouseButton)event.MouseButtonReleased].begin();
             for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
-                _setInput(*it, 1.0f);
+                _setInput(*it, 0.0f);
             }
         }
         // Analog events
         if (event.type == sf::Event::JoystickMoved) {
-            std::pair<int, JoyAnalog> pair(event.joystickMove.joystickId, (JoyAnalog)event.joystickMove.axis);
+            std::pair<int, JoyAnalog> pair(event.joystickMove.joystickId,
+            (JoyAnalog)event.joystickMove.axis);
             auto it = _analogEvents[pair].begin();
-            //std::cout << "gonna update joystick" << pair.first << " axis" << (int)pair.second << std::endl;
             for (; it != _analogEvents[pair].end(); it++) {
                 _setInput(*it, (event.joystickMove.position / 100.0f));
             }
