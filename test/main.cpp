@@ -98,7 +98,16 @@ int main(void)
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
     eng::PhysicSystems physics(gfx.getDelta());
     eng::TextureManager tm;
+    eng::SuperInput inputs(gfx.getRenderWindow());
 
+    inputs.addAction("jump");
+    inputs.addAction("crouch");
+    inputs.addAction("enter");
+    inputs.addAction("reload");
+    inputs.addEvent("jump", eng::SuperInput::JoyButton::a, 0);
+    inputs.addEvent("crouch", eng::SuperInput::JoyButton::b, 0);
+    inputs.addEvent("reload", eng::SuperInput::JoyButton::x, 0);
+    inputs.addEvent("enter", eng::SuperInput::JoyButton::y, 0);
     gfx.setFrameRateLimit(60);
     setupRegistry(reg);
     addText(reg);
@@ -109,6 +118,16 @@ int main(void)
     print_infos(reg, baba);
 
     while (gfx.isWindowOpen()) {
+        inputs.updateEvents();
+        std::cout << inputs.getActionStrength("plasma") << std::endl;
+        if (inputs.isActionJustReleased("jump"))
+            std::cout << "jump!" << std::endl;
+        if (inputs.isActionJustPressed("reload"))
+            std::cout << "reload" << std::endl;
+        if (inputs.isActionJustPressed("crouch"))
+            std::cout << "crouch" << std::endl;
+        if (inputs.isActionJustPressed("enter"))
+            std::cout << "enter" << std::endl;
         gfx.eventCatchWindow();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
