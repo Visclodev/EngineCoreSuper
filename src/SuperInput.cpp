@@ -15,54 +15,70 @@ eng::SuperInput::~SuperInput()
 {
 }
 
+void eng::SuperInput::_setInput(std::string input, float value)
+{
+    _inputMap[input][2] = _inputMap[input][0];
+    _inputMap[input][0] = value;
+}
+
 void eng::SuperInput::updateEvents()
 {
-    // Update every key events
-    for (auto it = _keyEvents.begin(); it != _keyEvents.end(); it++) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(it->first))) {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 1.0f;
+    sf::Event event;
+
+    // Set set previous values as new ones
+    for (auto it = _inputMap.begin(); it != _inputMap.end(); it++)
+        _setInput(it->first, it->second[0]);
+    while (_w.pollEvent(event)) {
+        // Press events
+        if (event.type == sf::Event::KeyPressed) {
+            auto it = _keyEvents[(Key)event.key.code].begin();
+            for (; it != _keyEvents[(Key)event.key.code].end(); it++) {
+                _setInput(*it, 1.0f);
             }
-        } else {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 0.0f;
+        }
+        if (event.type == sf::Event::JoystickButtonPressed) {
+            std::pair<int, JoyButton> pair(event.joystickButton.joystickId, (JoyButton)event.joystickButton.button);
+            auto it = _buttonEvents[pair].begin();
+            for (; it != _buttonEvents[pair].end(); it++) {
+                _setInput(*it, 1.0f);
+            }
+        }
+        if (event.type == sf::Event::MouseButtonPressed) {
+            auto it = _mouseEvents[(MouseButton)event.MouseButtonPressed].begin();
+            for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
+                _setInput(*it, 1.0f);
+            }
+        }
+        // Release events
+        if (event.type == sf::Event::KeyReleased) {
+            auto it = _keyEvents[(Key)event.key.code].begin();
+            for (; it != _keyEvents[(Key)event.key.code].end(); it++) {
+                _setInput(*it, 0.0f);
+            }
+        }
+        if (event.type == sf::Event::JoystickButtonReleased) {
+            std::pair<int, JoyButton> pair(event.joystickButton.joystickId, (JoyButton)event.joystickButton.button);
+            auto it = _buttonEvents[pair].begin();
+            for (; it != _buttonEvents[pair].end(); it++) {
+                _setInput(*it, 0.0f);
+            }
+        }
+        if (event.type == sf::Event::MouseButtonReleased) {
+            auto it = _mouseEvents[(MouseButton)event.MouseButtonReleased].begin();
+            for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
+                _setInput(*it, 1.0f);
+            }
+        }
+        // Analog events
+        if (event.type == sf::Event::JoystickMoved) {
+            std::pair<int, JoyAnalog> pair(event.joystickMove.joystickId, (JoyAnalog)event.joystickMove.axis);
+            auto it = _analogEvents[pair].begin();
+            //std::cout << "gonna update joystick" << pair.first << " axis" << (int)pair.second << std::endl;
+            for (; it != _analogEvents[pair].end(); it++) {
+                _setInput(*it, (event.joystickMove.position / 100.0f));
             }
         }
     }
-
-    // Update every mouse button event
-    for (auto it = _mouseEvents.begin(); it != _mouseEvents.end(); it++) {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button(it->first))) {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 1.0f;
-            }
-        } else {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 0.0f;
-            }
-        }
-    }
-
-    // Update every joystick button event
-    for (auto it = _buttonEvents.begin(); it != _buttonEvents.end(); it++) {
-        if (sf::Joystick::isButtonPressed(it->first.first, (int)it->first.second)) {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 1.0f;
-            }
-        } else {
-            for (auto i = it->second.begin(); i != it->second.end(); i++) {
-                _inputMap[*i][2] = _inputMap[*i][0];
-                _inputMap[*i][0] = 0.0f;
-            }
-        }
-    }
-    // Update every joystick analog event
-
 }
 
 void eng::SuperInput::addAction(std::string action, float deadzone)
@@ -122,7 +138,7 @@ void eng::SuperInput::clearEvent(std::string action)
 
 float eng::SuperInput::getActionStrength(std::string action)
 {
-    return _inputMap[action][0] - _inputMap[action][1];
+    return _inputMap[action][0];
 }
 
 bool eng::SuperInput::isActionPressed(std::string action)

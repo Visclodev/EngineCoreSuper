@@ -18,11 +18,10 @@ namespace eng
     class SuperInput {
         public:
             enum class JoyAnalog {
-                leftStickLeftAxis, leftStickRightAxis,
-                leftStickUpAxis, leftStickDownAxis,
-                rightStickLeftAxis, rightStickRightAxis,
-                rightStickUpAxis, rightStickDownAxis,
-                leftTrigger, rightTrigger
+                leftStickX, leftStickY,
+                leftTrigger, rightTrigger,
+                rightStickX, rightStickY,
+                dpadX, dpadY
             };
 
             // a = cross, Nintendo B, Xbox A
@@ -31,8 +30,8 @@ namespace eng
             // y = triangle, Nintendo X, Xbox Y
             // share = Nintendo Screenshot, Xbox Share, ps5 microphone
             enum class JoyButton {
-                a, b, y, x, up, down, right, left, start, select,
-                l1, l2, l3, r1, r2, r3, home, share
+                a, b, y, x, l1, r1, l2, r2, 
+                select, start, home, l3, r3
             };
 
             enum Key {
@@ -61,6 +60,7 @@ namespace eng
             void addEvent(std::string action, eng::SuperInput::MouseButton buttonEvent);
             void clearEvent(std::string action);
 
+            void oldUpdateEvents();
             void updateEvents();
 
             float getActionStrength(std::string action);
@@ -69,6 +69,8 @@ namespace eng
             bool isActionJustReleased(std::string action);
         protected:
         private:
+            void _setInput(std::string input, float value);
+
             std::map<std::string, std::array<float, 3>> _inputMap;
             std::map<eng::SuperInput::Key, std::vector<std::string>> _keyEvents;
             std::map<std::pair<int, eng::SuperInput::JoyAnalog>, std::vector<std::string>> _analogEvents;
