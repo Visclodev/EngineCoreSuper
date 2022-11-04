@@ -12,5 +12,6 @@
 #include "Components/SuperComponents.hpp"
 #include "Systems/SuperSystems.hpp"
 #include "TextureManager.hpp"
+#include "SuperInput.hpp"
 
 #endif /* !ENGINE_HPP_ */
