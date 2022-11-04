@@ -7,7 +7,7 @@
 
 #include "PhysicSystems.hpp"
 
-eng::PhysicSystems::PhysicSystems(sf::Time &delta):
+eng::PhysicSystems::PhysicSystems(float &delta):
 _delta(delta)
 {
 }
@@ -47,11 +47,11 @@ void eng::PhysicSystems::applyGravity(Registry &r)
             auto &rb = rigidbodies[i].value();
             auto &vl = velocities[i].value();
 
-            vl.x = flerp(vl.x, 0, rb.drag * _delta.asSeconds());
-            vl.y = flerp(vl.y, 0, rb.drag * _delta.asSeconds());
-            vl.angular = flerp(vl.angular, 0, rb.drag * _delta.asSeconds());
+            vl.x = flerp(vl.x, 0, rb.drag * _delta);
+            vl.y = flerp(vl.y, 0, rb.drag * _delta);
+            vl.angular = flerp(vl.angular, 0, rb.drag * _delta);
             if (rb.hasGravity)
-                vl.y += rb.gravityForce * _delta.asSeconds();
+                vl.y += rb.gravityForce * _delta;
         }
     }
 }
@@ -99,9 +99,9 @@ void eng::PhysicSystems::moveAndCollide(Registry &r)
 
 void eng::PhysicSystems::_addVel(eng::Position &p, eng::Velocity &v)
 {
-    p.x += v.x * _delta.asSeconds();
-    p.y += v.y * _delta.asSeconds();
-    p.rotation += v.angular * _delta.asSeconds();
+    p.x += v.x * _delta;
+    p.y += v.y * _delta;
+    p.rotation += v.angular * _delta;
 }
 
 void eng::PhysicSystems::_bounce(eng::Position &p, eng::Velocity &v,

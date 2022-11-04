@@ -33,6 +33,7 @@ void eng::GraphicSystems::display()
 {
     _window.display();
     _delta = _clock.restart();
+    _deltaSeconds = _delta.asSeconds();
 }
 
 void eng::GraphicSystems::drawSystem(Registry &r)
@@ -209,4 +210,9 @@ bool &eng::GraphicSystems::isWindowFocused()
 void eng::GraphicSystems::closeWindow()
 {
     this->_window.close();
+}
+
+float &eng::GraphicSystems::getDeltaSeconds()
+{
+    return _deltaSeconds;
 }

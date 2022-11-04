@@ -51,6 +51,10 @@ namespace eng
             /// @return delta in sf::Time reference
             sf::Time &getDelta();
 
+            /// @brief Gets a reference to the delta time in seconds
+            /// @return reference to a float (delta time in seconds)
+            float &getDeltaSeconds();
+
             /// @brief get the clock (restarted every frame update)
             /// @return the sf::Clock reference
             sf::Clock &getClock();
@@ -74,6 +78,8 @@ namespace eng
             void _displayParticleVector(std::vector<eng::SuperParticle> vector);
             void _displayParticleVector(std::vector<eng::SuperParticle> vector,
                 float x, float y);
+            
+            float _deltaSeconds;
             sf::Time _delta;
             sf::Clock _clock;
             sf::RenderWindow _window;

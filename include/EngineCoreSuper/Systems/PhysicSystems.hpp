@@ -16,7 +16,7 @@ namespace eng
 {
     class PhysicSystems {
         public:
-            PhysicSystems(sf::Time &delta);
+            PhysicSystems(float &delta);
             ~PhysicSystems();
 
             void applyVelocities(Registry &r);
@@ -77,7 +77,8 @@ namespace eng
             int _isColliding(int id, eng::CircleCollider &circle,
             eng::Registry &r);
 
-            sf::Time &_delta;
+            /// @brief Time (in seconds since last frame)
+            float &_delta;
     };
 } // namespace eng
 

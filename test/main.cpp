@@ -140,7 +140,7 @@ int main(void)
     r.addRegistry("Registry one");
     auto reg = r.getTop();
     eng::GraphicSystems gfx(1920, 1080, "Coucou");
-    eng::PhysicSystems physics(gfx.getDelta());
+    eng::PhysicSystems physics(gfx.getDeltaSeconds());
     gfx.setFrameRateLimit(360);
     eng::TextureManager tm;
     eng::SuperInput inputs(gfx.getRenderWindow());
