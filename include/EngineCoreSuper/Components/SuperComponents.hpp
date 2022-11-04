@@ -15,5 +15,8 @@
 #include "Music.hpp"
 #include "Sound.hpp"
 #include "ParticleEmitter.hpp"
+#include "RigidBody.hpp"
+#include "CircleCollider.hpp"
+#include "RectCollider.hpp"
 
 #endif /* !SUPERCOMPONENTS_HPP_ */
