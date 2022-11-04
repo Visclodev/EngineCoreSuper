@@ -23,6 +23,22 @@ namespace eng
             void applyGravity(Registry &r);
             void moveAndCollide(Registry &r);
 
+            /// @brief Checks if a Point is over a rectangle
+            /// @param point The position of the point
+            /// @param centre The top left corner of the rectangle
+            /// @param circle The rectangle collider
+            /// return True if the point is on the rectangle
+            bool isPointOnRect(eng::Position &point, eng::Position &topLeft,
+            eng::RectCollider &rect);
+
+            /// @brief Checks if a Point is over a circle
+            /// @param point The position of the point
+            /// @param centre The centre of the circle
+            /// @param circle The circle collider
+            /// return True if the point is on the circle
+            bool isPointOnCircle(eng::Position &point, eng::Position &centre,
+            eng::CircleCollider &circle);
+
             /// @brief Checks if a Circle collides with another
             /// @param posA the position of the first circle
             /// @param spA the first circle (a)

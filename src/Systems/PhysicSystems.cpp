@@ -183,6 +183,20 @@ static float fsqr(const float x)
     return (x * x);
 }
 
+bool eng::PhysicSystems::isPointOnCircle(eng::Position &point,
+eng::Position &centre, eng::CircleCollider &circle)
+{
+    float distance = fsqr(centre.x - point.x) + fsqr(centre.y - point.y);
+    return (distance < fsqr(circle.radius));
+}
+
+bool eng::PhysicSystems::isPointOnRect(eng::Position &point,
+eng::Position &topLeft, eng::RectCollider &rect)
+{
+    return ((point.x > topLeft.x && point.x < topLeft.x + rect.width)
+    && (point.y > topLeft.y && point.y < topLeft.y + rect.height));
+}
+
 bool eng::PhysicSystems::areCircleColliding(eng::Position &posA,
 eng::CircleCollider &spA, eng::Position &posB, eng::CircleCollider &spB)
 {
