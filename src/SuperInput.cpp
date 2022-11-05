@@ -157,3 +157,17 @@ bool eng::SuperInput::isActionJustReleased(std::string action)
 {
     return (_inputMap[action][0] < 1.0f && _inputMap[action][2] == 1.0f);
 }
+
+std::array<int, 2> eng::SuperInput::getMousePosition(bool local)
+{
+    std::array<int, 2> res;
+
+    if (local) {
+        res[0] = sf::Mouse::getPosition(_w).x;
+        res[1] = sf::Mouse::getPosition(_w).y;
+    } else {
+        res[0] = sf::Mouse::getPosition().x;
+        res[1] = sf::Mouse::getPosition().y;
+    }
+    return (res);
+}

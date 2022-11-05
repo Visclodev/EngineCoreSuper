@@ -66,6 +66,8 @@ namespace eng
             bool isActionPressed(std::string action);
             bool isActionJustPressed(std::string action);
             bool isActionJustReleased(std::string action);
+
+            std::array<int, 2> getMousePosition(bool local = true);
         protected:
         private:
             void _setInput(std::string input, float value);
