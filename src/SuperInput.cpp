@@ -45,7 +45,7 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::MouseButtonPressed) {
-            auto it = _mouseEvents[(MouseButton)event.MouseButtonPressed].begin();
+            auto it = _mouseEvents[(MouseButton)event.mouseButton.button].begin();
             for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
                 _setInput(*it, 1.0f);
             }
@@ -66,7 +66,7 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::MouseButtonReleased) {
-            auto it = _mouseEvents[(MouseButton)event.MouseButtonReleased].begin();
+            auto it = _mouseEvents[(MouseButton)event.mouseButton.button].begin();
             for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
                 _setInput(*it, 0.0f);
             }
