@@ -8,7 +8,7 @@
 #ifndef ENGINE_HPP_
 #define ENGINE_HPP_
 
-#include "RegistryManager.hpp"
+#include "SceneManager.hpp"
 #include "Components/SuperComponents.hpp"
 #include "Systems/SuperSystems.hpp"
 #include "TextureManager.hpp"

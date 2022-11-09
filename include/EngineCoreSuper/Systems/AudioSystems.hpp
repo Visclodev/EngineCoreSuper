@@ -25,6 +25,14 @@ namespace eng
             /// @brief Play every music set to play
             /// @param r The registry with musics to play
             void playMusic(Registry &r);
+
+            /// @brief Stops every music currently playing in a regitry
+            /// @param r The registry containing the musics
+            void pauseAllMusic(Registry &r);
+
+            /// @brief Ready all music to play
+            /// @param r The registry on which to apply thoses settings
+            void setAllMusicToPlay(Registry &r);
         protected:
         private:
     };
