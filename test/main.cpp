@@ -19,12 +19,12 @@ class Player{
     private:
 };
 
-void followMouse(eng::Entity entity, eng::Registry &r, eng::GraphicSystems &g)
+void followMouse(eng::Entity entity, eng::Registry &r, eng::SuperInput &inputs)
 {
     auto &pos = r.getComponents<eng::Position>()[entity.getId()].value();
 
-    pos.x = sf::Mouse::getPosition(g.getRenderWindow()).x;
-    pos.y = sf::Mouse::getPosition(g.getRenderWindow()).y;
+    pos.x = inputs.getMousePosition()[0];
+    pos.y = inputs.getMousePosition()[1];
 }
 
 void print_infos(eng::Registry &reg, eng::Entity &baba)
@@ -162,7 +162,7 @@ int main(void)
         gfx.eventCatchWindow();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             gfx.getRenderWindow().close();
-        followMouse(particle, reg, gfx);
+        followMouse(particle, reg, inputs);
         physics.moveAndCollide(reg);
         physics.applyGravity(reg);
         //physics.applyRigidBodyCollisions(reg);

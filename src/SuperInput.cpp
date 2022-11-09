@@ -45,7 +45,7 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::MouseButtonPressed) {
-            auto it = _mouseEvents[(MouseButton)event.MouseButtonPressed].begin();
+            auto it = _mouseEvents[(MouseButton)event.mouseButton.button].begin();
             for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
                 _setInput(*it, 1.0f);
             }
@@ -66,7 +66,7 @@ void eng::SuperInput::updateEvents()
             }
         }
         if (event.type == sf::Event::MouseButtonReleased) {
-            auto it = _mouseEvents[(MouseButton)event.MouseButtonReleased].begin();
+            auto it = _mouseEvents[(MouseButton)event.mouseButton.button].begin();
             for (; it != _mouseEvents[(MouseButton)event.mouseButton.button].end(); it++) {
                 _setInput(*it, 0.0f);
             }
@@ -156,4 +156,18 @@ bool eng::SuperInput::isActionJustPressed(std::string action)
 bool eng::SuperInput::isActionJustReleased(std::string action)
 {
     return (_inputMap[action][0] < 1.0f && _inputMap[action][2] == 1.0f);
+}
+
+std::array<int, 2> eng::SuperInput::getMousePosition(bool local)
+{
+    std::array<int, 2> res;
+
+    if (local) {
+        res[0] = sf::Mouse::getPosition(_w).x;
+        res[1] = sf::Mouse::getPosition(_w).y;
+    } else {
+        res[0] = sf::Mouse::getPosition().x;
+        res[1] = sf::Mouse::getPosition().y;
+    }
+    return (res);
 }
