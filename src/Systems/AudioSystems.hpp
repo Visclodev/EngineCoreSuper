@@ -33,8 +33,20 @@ namespace eng
             /// @brief Ready all music to play
             /// @param r The registry on which to apply thoses settings
             void setAllMusicToPlay(Registry &r);
+            
+
+            /// @brief Set the music volume
+            /// @param r The registry on which to apply thoses settings
+            /// @param volume The new volume (in %)
+            void setMusicVolume(Registry &r, float volume);
+            /// @brief Get the music volume
+            /// @param r The registry containing the music
+            /// @return Music volume (in %)
+            float getMusicVolume(Registry &r);
         protected:
         private:
+            float _musicVolume;
+            float _sfxVolume;
     };
 } // namespace eng
 
