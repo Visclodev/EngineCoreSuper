@@ -33,6 +33,7 @@ void eng::AudioSystems::playMusic(Registry &r)
     for (int i = 0; i < musics.size(); i++)
         if (musics[i].has_value() && musics[i].value().toPlay) {
             musics[i].value().toPlay = false;
+            musics[i].value().music->setVolume(_musicVolume);
             musics[i].value().music->play();
         }
 }
@@ -51,8 +52,9 @@ void eng::AudioSystems::setAllMusicToPlay(Registry &r)
     auto &musics = r.getComponents<Music>();
 
     for (int i = 0; i < musics.size(); i++)
-        if (musics[i].has_value())
+        if (musics[i].has_value()) {
             musics[i].value().toPlay = true;
+        }
 }
 
 void eng::AudioSystems::setMusicVolume(Registry &r, float volume)
