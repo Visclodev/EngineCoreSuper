@@ -45,7 +45,7 @@ namespace eng
             float getMusicVolume(Registry &r);
         protected:
         private:
-            float _musicVolume;
+            float _musicVolume = 100;
             float _sfxVolume;
     };
 } // namespace eng
