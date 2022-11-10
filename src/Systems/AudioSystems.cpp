@@ -22,7 +22,7 @@ void eng::AudioSystems::playSound(Registry &r)
     for (int i = 0; i < sounds.size(); i++)
         if (sounds[i].has_value() && sounds[i].value().toPlay) {
             sounds[i].value().toPlay = false;
-            sounds[i].value().sound.setVolume(_musicVolume);
+            sounds[i].value().sound.setVolume(_sfxVolume);
             sounds[i].value().sound.play();
         }
 }
@@ -91,5 +91,5 @@ void eng::AudioSystems::setSfxVolume(Registry &r, float volume)
 
 float eng::AudioSystems::getSfxVolume(Registry &r)
 {
-    return _musicVolume;
+    return _sfxVolume;
 }
