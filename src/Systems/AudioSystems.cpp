@@ -74,3 +74,21 @@ float eng::AudioSystems::getMusicVolume(Registry &r)
 {
     return _musicVolume;
 }
+
+void eng::AudioSystems::setSfxVolume(Registry &r, float volume)
+{
+    if (volume < 0) volume = 0;
+    if (volume > 100) volume = 100;
+
+    auto &sounds = r.getComponents<Sound>();
+
+    for (int i = 0; i < sounds.size(); i++)
+        if (sounds[i].has_value())
+            sounds[i].value().sound.setVolume(volume);
+    _sfxVolume = volume;
+}
+
+float eng::AudioSystems::getSfxVolume(Registry &r)
+{
+    return _musicVolume;
+}

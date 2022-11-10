@@ -43,10 +43,18 @@ namespace eng
             /// @param r The registry containing the music
             /// @return Music volume (in %)
             float getMusicVolume(Registry &r);
+            /// @brief Set the sfx volume
+            /// @param r The registry on which to apply thoses settings
+            /// @param volume The new volume (in %)
+            void setSfxVolume(Registry &r, float volume);
+            /// @brief Get the sfx volume
+            /// @param r The registry containing the sfx
+            /// @return Sfx volume (in %)
+            float getSfxVolume(Registry &r);
         protected:
         private:
             float _musicVolume = 100;
-            float _sfxVolume;
+            float _sfxVolume = 100;
     };
 } // namespace eng
 
