@@ -36,3 +36,21 @@ void eng::AudioSystems::playMusic(Registry &r)
             musics[i].value().music->play();
         }
 }
+
+void eng::AudioSystems::pauseAllMusic(Registry &r)
+{
+    auto &musics = r.getComponents<Music>();
+
+    for (int i = 0; i < musics.size(); i++)
+        if (musics[i].has_value())
+            musics[i].value().music->pause();
+}
+
+void eng::AudioSystems::setAllMusicToPlay(Registry &r)
+{
+    auto &musics = r.getComponents<Music>();
+
+    for (int i = 0; i < musics.size(); i++)
+        if (musics[i].has_value())
+            musics[i].value().toPlay = true;
+}

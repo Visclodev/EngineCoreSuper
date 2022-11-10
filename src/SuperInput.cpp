@@ -29,6 +29,9 @@ void eng::SuperInput::updateEvents()
     for (auto it = _inputMap.begin(); it != _inputMap.end(); it++)
         _setInput(it->first, it->second[0]);
     while (_w.pollEvent(event)) {
+        // close event
+        if (event.type == sf::Event::Closed)
+            _w.close();
         // Press events
         if (event.type == sf::Event::KeyPressed) {
             auto it = _keyEvents[(Key)event.key.code].begin();
