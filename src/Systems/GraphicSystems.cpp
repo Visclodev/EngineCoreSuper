@@ -138,6 +138,12 @@ sf::RenderWindow &eng::GraphicSystems::getRenderWindow()
 void eng::GraphicSystems::setFrameRateLimit(unsigned int limit)
 {
     _window.setFramerateLimit(limit);
+    _frameRateLimit = limit;
+}
+
+unsigned int eng::GraphicSystems::getFrameRateLimit()
+{
+    return _frameRateLimit;
 }
 
 void eng::GraphicSystems::clear(sf::Color c)

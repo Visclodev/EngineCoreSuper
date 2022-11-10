@@ -67,6 +67,10 @@ namespace eng
             /// @param limit the frequency of updates (per seconds)
             void setFrameRateLimit(unsigned int limit);
 
+            /// @brief Get the framerate limit
+            /// @return The framerate limit
+            unsigned int getFrameRateLimit();
+
             /// @brief A system who handle specific window event
             void eventCatchWindow();
 
@@ -85,6 +89,7 @@ namespace eng
             sf::RenderWindow _window;
             sf::Event _event;
             bool _isWindowFocused = true;
+            unsigned int _frameRateLimit;
     };
 } // namespace eng
 
