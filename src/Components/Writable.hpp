@@ -26,12 +26,15 @@ namespace eng
             /// @param charSize size of the characters
             /// @param color color of the characters
             /// @param style style of the text
+            /// @param x horizontal position of the text
+            /// @param y vertical position of the text
             Writable(std::string name,
             sf::String content = "Text",
             const std::string fontPath = "../assets/Russo_One.ttf",
             unsigned int charSize = 30,
             sf::Color color = sf::Color::White,
-            sf::Text::Style style = sf::Text::Regular) {
+            sf::Text::Style style = sf::Text::Regular,
+            float x = 0, float y = 0) {
                 _font->loadFromFile(fontPath);
                 _content = &content;
                 _color = &color;
@@ -40,6 +43,7 @@ namespace eng
                 _txt.setFont(*_font);
                 _txt.setFillColor(*_color);
                 _txt.setStyle(style);
+                _txt.setPosition(sf::Vector2f(x, y));
                 _name = name;
             }
             ~Writable() {}
