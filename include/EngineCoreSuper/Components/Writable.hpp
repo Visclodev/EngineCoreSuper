@@ -26,8 +26,8 @@ namespace eng
             /// @param charSize size of the characters
             /// @param color color of the characters
             /// @param style style of the text
-            /// @param x horizontal position of the text
-            /// @param y vertical position of the text
+            /// @param x horizontal offset of the text
+            /// @param y vertical offset of the text
             Writable(std::string name,
             sf::String content = "Text",
             const std::string fontPath = "../assets/Russo_One.ttf",
@@ -43,8 +43,9 @@ namespace eng
                 _txt.setFont(*_font);
                 _txt.setFillColor(*_color);
                 _txt.setStyle(style);
-                _txt.setPosition(sf::Vector2f(x, y));
                 _name = name;
+                _xOffset = x;
+                _yOffset = y;
             }
             ~Writable() {}
             sf::String *_content = new sf::String;
@@ -52,6 +53,8 @@ namespace eng
             sf::Color *_color = new sf::Color;
             sf::Text _txt;
             std::string _name;
+            float _xOffset;
+            float _yOffset;
         protected:
         private:
     };
