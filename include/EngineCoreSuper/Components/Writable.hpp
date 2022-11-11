@@ -43,7 +43,7 @@ namespace eng
                 _txt.setFont(*_font);
                 _txt.setFillColor(*_color);
                 _txt.setStyle(style);
-                _txt.setPosition(sf::Vector2f(x, y));
+                _txt.move(sf::Vector2f(x, y));
                 _name = name;
             }
             ~Writable() {}
