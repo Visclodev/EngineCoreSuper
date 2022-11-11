@@ -107,15 +107,20 @@ void eng::GraphicSystems::writeSystem(Registry &r)
 {
     auto &positions = r.getComponents<Position>();
     auto &texts = r.getComponents<Writable>();
+    int x = 0;
+    int y = 0;
 
     for (int i = 0; i < texts.size() && i < positions.size(); i++) {
         if (texts[i].has_value() && positions[i].has_value()) {
             auto &text = texts[i].value();
             auto &position = positions[i].value();
-            
-            text._txt.setPosition(position.x + text._txt.getPosition().x, position.y + text._txt.getPosition().y);
+            x = text._txt.getPosition().x;
+            y = text._txt.getPosition().y;
+
+            text._txt.setPosition(position.x + x, position.y + y);
             text._txt.setRotation(position.rotation);
             _window.draw(text._txt);
+            text._txt.setPosition(x, y);
         }
     }
 }
