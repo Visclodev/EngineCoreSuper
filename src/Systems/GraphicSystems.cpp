@@ -113,7 +113,7 @@ void eng::GraphicSystems::writeSystem(Registry &r)
             auto &text = texts[i].value();
             auto &position = positions[i].value();
             
-            text._txt.setPosition(position.x, position.y);
+            text._txt.setPosition(position.x + text._txt.getPosition().x, position.y + text._txt.getPosition().y);
             text._txt.setRotation(position.rotation);
             _window.draw(text._txt);
         }
