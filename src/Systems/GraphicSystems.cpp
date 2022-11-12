@@ -20,6 +20,8 @@ _window(sf::VideoMode(width, height, 256), name), _clock(sf::Clock())
     unsigned int fps = 60;
     _window.setFramerateLimit(fps);
     _frameRateLimit = fps;
+    _delta = sf::Time::Zero;
+    _deltaSeconds = 0;
 }
 
 eng::GraphicSystems::~GraphicSystems()
