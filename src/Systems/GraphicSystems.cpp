@@ -17,7 +17,9 @@ _window(sf::VideoMode(width, height, 256), name), _clock(sf::Clock())
     //sf::Texture iconText;
     //iconText.loadFromFile("../assets/logo.png");
     //_window.setIcon(32, 32, iconText.copyToImage().getPixelsPtr());
-    _window.setFramerateLimit(60);
+    unsigned int fps = 60;
+    _window.setFramerateLimit(fps);
+    _frameRateLimit = fps;
 }
 
 eng::GraphicSystems::~GraphicSystems()
