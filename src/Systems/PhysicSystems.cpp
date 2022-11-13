@@ -207,10 +207,10 @@ eng::CircleCollider &spA, eng::Position &posB, eng::CircleCollider &spB)
 bool eng::PhysicSystems::areRectColliding(eng::Position &posA,
 eng::RectCollider &rcA, eng::Position &posB, eng::RectCollider &rcB)
 {
-    return !((posB.x >= posA.x + rcA.width)
-    || (posB.x + rcB.width <= posA.x)
-    || (posB.y >= posA.y + rcA.height)
-    || (posB.y + rcB.height <= posA.y));
+    return !((posB.x >= posA.x + rcA.width + rcA.offsetX)
+    || (posB.x + rcB.width + rcB.offsetX <= posA.x)
+    || (posB.y >= posA.y + rcA.height + rcA.offsetY)
+    || (posB.y + rcB.height + rcB.offsetY <= posA.y));
 }
 
 bool eng::PhysicSystems::areCircleAndRectColliding(eng::Position &posA,
